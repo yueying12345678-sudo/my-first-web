@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS 动画学习</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --border: #334155;
+      --text: #cbd5e1;
+      --text-bright: #f1f5f9;
+      --accent: #38bdf8;
+      --code-bg: #0c1222;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.7;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 24px 48px;
+    }
+    header h1 {
+      font-size: 36px;
+      color: var(--text-bright);
+      margin-bottom: 8px;
+    }
+    header p { color: #64748b; }
+
+    .lesson {
+      max-width: 800px;
+      margin: 0 auto 64px;
+      padding: 0 24px;
+    }
+    .lesson h2 {
+      font-size: 22px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .lesson h3 {
+      font-size: 16px;
+      color: var(--text-bright);
+      margin: 24px 0 12px;
+    }
+
+    .demo-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      font-size: 13px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+    code { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+
+    /* ===== 课堂示例样式 ===== */
+
+    /* 1. transition 过渡 */
+    .box {
+      width: 80px; height: 80px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: var(--text);
+      cursor: pointer;
+      /* 过渡: 属性 时长 缓动 */
+    }
+
+    /* --- hover 变色 --- */
+    .box.hover-color { transition: background 0.3s, border-color 0.3s; }
+    .box.hover-color:hover { background: var(--accent); border-color: var(--accent); color: #000; }
+
+    /* --- hover 放大 --- */
+    .box.hover-scale { transition: transform 0.25s ease; }
+    .box.hover-scale:hover { transform: scale(1.15); }
+
+    /* --- hover 上浮+阴影 --- */
+    .box.hover-float {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .box.hover-float:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+    }
+
+    /* 按钮 hover 实战 */
+    .btn-demo {
+      padding: 10px 28px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-demo:hover {
+      background: #7dd3fc;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(56,189,248,0.35);
+    }
+    .btn-demo:active {
+      transform: translateY(0);
+    }
+
+    /* 2. transform 变换 */
+    .card-demo {
+      width: 120px; height: 80px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      transition: transform 0.4s ease;
+    }
+    .card-demo.rot:hover { transform: rotate(5deg); }
+    .card-demo.skew:hover { transform: skewX(-5deg); }
+
+    /* 3. @keyframes 关键帧 */
+    .pulse-dot {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50%      { opacity: 1;   transform: scale(1.3); }
+    }
+
+    .bounce-ball {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: bounce 0.8s ease infinite alternate;
+    }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-30px); }
+    }
+
+    /* 4. 滚动渐入 */
+    .reveal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 32px;
+      margin-bottom: 16px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 5. 延迟序列 */
+    .stagger-list { list-style: none; }
+    .stagger-list li {
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: 8px;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .stagger-list li.visible { opacity: 1; transform: translateX(0); }
+
+    /* 6. loading skeleton */
+    .skeleton {
+      height: 20px;
+      background: linear-gradient(90deg, var(--surface) 25%, #2a3a50 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+      border-radius: 4px;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>CSS 动画速成</h1>
+  <p>学会这 5 招，模板质感翻倍</p>
+</header>
+
+<!-- ============ 第一课: transition ============ -->
+<section class="lesson">
+  <h2>一、transition — 让变化变平滑</h2>
+  <p>transition 是最常用的动画手段。任何 CSS 属性变化时，它帮你<strong>自动补帧</strong>，而不是生硬地跳变。</p>
+
+  <h3>1. hover 变色</h3>
+  <div class="demo-row">
+    <div class="box hover-color">hover 我</div>
+  </div>
+  <pre><code>.box { transition: background 0.3s, border-color 0.3s; }
+.box:hover { background: #38bdf8; border-color: #38bdf8; }</code></pre>
+
+  <h3>2. hover 放大</h3>
+  <div class="demo-row">
+    <div class="box hover-scale">scale</div>
+  </div>
+  <pre><code>.box { transition: transform 0.25s ease; }
+.box:hover { transform: scale(1.15); }</code></pre>
+
+  <h3>3. hover 上浮 + 阴影（卡片常用）</h3>
+  <div class="demo-row">
+    <div class="box hover-float">浮</div>
+  </div>
+  <pre><code>.card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+}</code></pre>
+
+  <h3>4. 按钮实战</h3>
+  <div class="demo-row">
+    <button class="btn-demo">点击我</button>
+  </div>
+  <pre><code>.btn { transition: background 0.2s, transform 0.15s, box-shadow 0.2s; }
+.btn:hover  { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(...,0.35); }
+.btn:active { transform: translateY(0); }   /* 按下去回弹 */</code></pre>
+
+  <p style="font-size:13px;color:#64748b;margin-top:8px;">
+  ⚡ 关键点：transition 写在<strong>元素本身</strong>上（不是 :hover 里）。这样鼠标进入和离开都有动画。
+  </p>
+</section>
+
+<!-- ============ 第二课: transform ============ -->
+<section class="lesson">
+  <h2>二、transform — 变形不占位</h2>
+  <p>transform 改变元素的视觉位置/大小/角度，但<strong>不触发页面重排</strong>，性能极好。动画尽量用 transform。</p>
+
+  <div class="demo-row" style="gap:24px;">
+    <div class="card-demo rot">hover 旋转</div>
+    <div class="card-demo skew">hover 倾斜</div>
+  </div>
+
+  <pre><code>transform: translateY(-8px);   /* 上移 (最常用，做悬浮) */
+transform: translateX(10px);   /* 右移 */
+transform: scale(1.1);         /* 放大 10% */
+transform: rotate(5deg);       /* 旋转 5° */
+transform: skewX(-5deg);       /* 水平倾斜 */
+
+/* 组合使用 */
+transform: translateY(-6px) scale(1.05);</code></pre>
+  <p style="font-size:13px;color:#64748b;">⚡ 和 transition 搭配：transition: transform 0.3s → hover 时 transform 变化，自动过渡。</p>
+</section>
+
+<!-- ============ 第三课: @keyframes ============ -->
+<section class="lesson">
+  <h2>三、@keyframes — 关键帧动画</h2>
+  <p>transition 只能做"A → B"的简单过渡。@keyframes 可以做<strong>循环、多阶段、复杂路径</strong>的动画。</p>
+
+  <h3>1. 脉冲圆点（加载指示器常用）</h3>
+  <div class="demo-row">
+    <div class="pulse-dot"></div>
+  </div>
+  <pre><code>@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%      { opacity: 1;   transform: scale(1.3); }
+}
+.dot { animation: pulse 1.6s ease-in-out infinite; }</code></pre>
+
+  <h3>2. 弹跳球</h3>
+  <div class="demo-row">
+    <div class="bounce-ball"></div>
+  </div>
+  <pre><code>@keyframes bounce {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-30px); }
+}
+.ball { animation: bounce 0.8s ease infinite alternate; }</code></pre>
+
+  <h3>3. 骨架屏（加载占位）</h3>
+  <div class="skeleton" style="width:60%;margin-bottom:10px;"></div>
+  <div class="skeleton" style="width:80%;margin-bottom:10px;"></div>
+  <div class="skeleton" style="width:40%;"></div>
+  <pre><code>.skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}</code></pre>
+
+  <p style="font-size:13px;color:#64748b;">
+  animation 格式：<strong>名称 时长 缓动 延迟 次数 方向</strong><br>
+  常用：infinite（无限循环）、alternate（来回播放）、forwards（停在最后一帧）
+  </p>
+</section>
+
+<!-- ============ 第四课: 滚动渐入 ============ -->
+<section class="lesson">
+  <h2>四、滚动渐入 — 页面活了</h2>
+  <p>元素进入视口时才出现，是最实用的模板技能。用 <strong>Intersection Observer</strong>（浏览器原生 API）实现。</p>
+
+  <div class="reveal-card">
+    <strong>卡片 1</strong><br>
+    这段内容会在滚动到它时淡入上浮。
+  </div>
+  <div class="reveal-card">
+    <strong>卡片 2</strong><br>
+    每个卡片独立触发，无需写死延迟。
+  </div>
+  <div class="reveal-card">
+    <strong>卡片 3</strong><br>
+    客户看到这种效果会觉得模板"很高级"。
+  </div>
+
+  <pre><code>&lt;!-- CSS --&gt;
+.reveal-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+&lt;!-- JS --&gt;
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal-card').forEach(el => observer.observe(el));</code></pre>
+  <p style="font-size:13px;color:#64748b;">⚡ threshold: 0.15 表示元素露出 15% 时触发。调大则更晚触发。</p>
+</section>
+
+<!-- ============ 第五课: 延迟序列 ============ -->
+<section class="lesson">
+  <h2>五、延迟序列 — 逐个出现</h2>
+  <p>列表项一个接一个出现，比整块弹出精致得多。</p>
+
+  <ul class="stagger-list">
+    <li>第一项 — 数据覆盖 500+ 企业</li>
+    <li>第二项 — 实时数据更新频率</li>
+    <li>第三项 — 1200+ 日活用户</li>
+    <li>第四项 — 99.7% 数据准确率</li>
+  </ul>
+
+  <pre><code>/* 给每个 li 不同的 animation-delay */
+.stagger-list li:nth-child(1) { transition-delay: 0s; }
+.stagger-list li:nth-child(2) { transition-delay: 0.1s; }
+.stagger-list li:nth-child(3) { transition-delay: 0.2s; }
+.stagger-list li:nth-child(4) { transition-delay: 0.3s; }</code></pre>
+</section>
+
+
+<script>
+// === 第四课: Intersection Observer ===
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal-card').forEach(el => revealObserver.observe(el));
+
+// === 第五课: 延迟序列 ===
+const staggerObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const items = entry.target.querySelectorAll('li');
+      items.forEach((li, i) => {
+        li.style.transitionDelay = (i * 0.1) + 's';
+        li.classList.add('visible');
+      });
+      staggerObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.stagger-list').forEach(el => staggerObserver.observe(el));
+</script>
+
+</body>
+</html>
