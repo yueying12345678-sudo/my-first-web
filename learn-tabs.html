@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab / 折叠 / 轮播</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --border: #334155;
+      --text: #cbd5e1;
+      --text-bright: #f1f5f9;
+      --accent: #38bdf8;
+      --code-bg: #0c1222;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.7;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 24px 48px;
+    }
+    header h1 { font-size: 36px; color: var(--text-bright); margin-bottom: 8px; }
+    header p { color: #64748b; }
+
+    .lesson {
+      max-width: 800px;
+      margin: 0 auto 64px;
+      padding: 0 24px;
+    }
+    .lesson h2 {
+      font-size: 22px; color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px; margin-bottom: 20px;
+    }
+    .lesson h3 { font-size: 16px; color: var(--text-bright); margin: 24px 0 12px; }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 16px 20px; font-size: 13px;
+      overflow-x: auto; margin-bottom: 16px;
+    }
+    code { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+
+    /* ======== 1. Tab 切换 ======== */
+    .tab-bar {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 0;
+    }
+    .tab-btn {
+      padding: 10px 24px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .tab-panel {
+      display: none;
+      padding: 24px 0;
+    }
+    .tab-panel.active { display: block; }
+
+    /* ======== 2. 折叠面板 ======== */
+    .accordion { border: 1px solid var(--border); }
+    .acc-header {
+      width: 100%;
+      padding: 16px 20px;
+      background: var(--surface);
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-bright);
+      font-size: 15px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    .acc-header:hover { background: #253348; }
+    .acc-header .arrow {
+      transition: transform 0.3s;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .acc-header.open .arrow { transform: rotate(180deg); }
+    .acc-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .acc-body-inner {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    /* ======== 3. 轮播 ======== */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.4s ease;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      padding: 60px 40px;
+      text-align: center;
+    }
+    .carousel-slide h3 { font-size: 24px; color: var(--text-bright); margin-bottom: 8px; }
+    .carousel-slide p { color: var(--text); font-size: 14px; }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .carousel-btn:hover { background: rgba(0,0,0,0.75); }
+    .carousel-btn.prev { left: 12px; }
+    .carousel-btn.next { right: 12px; }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .carousel-dot.active { background: var(--accent); }
+
+    /* mobile */
+    @media (max-width: 600px) {
+      .tab-btn { padding: 8px 14px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Tab / 折叠 / 轮播</h1>
+  <p>交互三件套，覆盖 80% 的客户需求</p>
+</header>
+
+<!-- ============ 一、Tab 切换 ============ -->
+<section class="lesson">
+  <h2>一、Tab 切换</h2>
+  <p>常见于产品详情页、方案对比、价格表按年/月切换。</p>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="tab1">发射追踪</button>
+    <button class="tab-btn" data-tab="tab2">产业链图谱</button>
+    <button class="tab-btn" data-tab="tab3">概念股监控</button>
+  </div>
+  <div class="tab-panel active" id="tab1">
+    全球火箭发射计划、窗口期、载荷信息实时同步，覆盖 SpaceX、中国航天等主要发射服务商。
+  </div>
+  <div class="tab-panel" id="tab2">
+    从上游稀有材料到下游卫星应用，可视化供应链关系，定位关键供应商与客户。
+  </div>
+  <div class="tab-panel" id="tab3">
+    A 股及美股商业航天标的实时异动检测，主力资金流向追踪，自定义预警规则。
+  </div>
+
+  <pre><code>&lt;!-- HTML: 按钮 + 面板 --&gt;
+&lt;button class="tab-btn active" data-tab="tab1"&gt;发射追踪&lt;/button&gt;
+&lt;div class="tab-panel active" id="tab1"&gt;内容&lt;/div&gt;
+
+&lt;!-- CSS: 激活状态 --&gt;
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+&lt;!-- JS: 点击切换 --&gt;
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    // 移除所有 active
+    document.querySelectorAll('.tab-btn, .tab-panel').forEach(el => el.classList.remove('active'));
+    // 激活当前
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});</code></pre>
+  <p style="font-size:13px;color:#64748b;">
+  ⚡ 关键：用 <code>data-tab</code> 属性关联按钮和面板，通过 <code>btn.dataset.tab</code> 读取。
+  </p>
+</section>
+
+<!-- ============ 二、折叠面板 ============ -->
+<section class="lesson">
+  <h2>二、折叠面板（Accordion）</h2>
+  <p>FAQ 页面、产品规格展开、多步骤表单 —— 都是折叠面板的变体。</p>
+
+  <div class="accordion">
+    <button class="acc-header">
+      发货需要多长时间？
+      <span class="arrow">▼</span>
+    </button>
+    <div class="acc-body"><div class="acc-body-inner">
+      订单确认后 24 小时内发货。定制产品需额外 2-3 个工作日，具体以产品页标注为准。
+    </div></div>
+
+    <button class="acc-header">
+      支持哪些支付方式？
+      <span class="arrow">▼</span>
+    </button>
+    <div class="acc-body"><div class="acc-body-inner">
+      支持微信支付、支付宝、银联卡及国际信用卡（Visa / MasterCard）。
+    </div></div>
+
+    <button class="acc-header">
+      能否退货退款？
+      <span class="arrow">▼</span>
+    </button>
+    <div class="acc-body"><div class="acc-body-inner">
+      未拆封商品支持 7 天无理由退货。定制商品不支持退款，请确认后再下单。
+    </div></div>
+  </div>
+
+  <pre><code>&lt;!-- CSS: max-height 过渡 --&gt;
+.acc-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.acc-body.open { max-height: 200px; }  /* 值需要略大于实际内容高度 */
+
+&lt;!-- JS --&gt;
+header.addEventListener('click', () => {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  if (body.classList.contains('open')) {
+    body.classList.remove('open');
+    body.style.maxHeight = null;
+  } else {
+    body.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';  // 动态设置高度
+  }
+});</code></pre>
+  <p style="font-size:13px;color:#64748b;">
+  ⚡ 关键：用 <code>scrollHeight</code> 动态获取内容高度，而不是写死数值。这样改文案不会错位。
+  </p>
+</section>
+
+<!-- ============ 三、轮播 ============ -->
+<section class="lesson">
+  <h2>三、轮播图（Carousel）</h2>
+  <p>首页大图轮播、客户评价滚动、产品图切换——频率最高的需求之一。</p>
+
+  <div class="carousel" id="demoCarousel">
+    <div class="carousel-track">
+      <div class="carousel-slide">
+        <h3>用数据读懂商业航天</h3>
+        <p>全球发射数据 · 产业链图谱 · 概念股监控</p>
+      </div>
+      <div class="carousel-slide">
+        <h3>实时追踪 500+ 企业</h3>
+        <p>从上游材料到下游应用，全链路覆盖</p>
+      </div>
+      <div class="carousel-slide">
+        <h3>毫秒级异动推送</h3>
+        <p>行情变化第一时间送达，抢占投资先机</p>
+      </div>
+    </div>
+    <button class="carousel-btn prev">&lt;</button>
+    <button class="carousel-btn next">&gt;</button>
+    <div class="carousel-dots"></div>
+  </div>
+
+  <pre><code>&lt;!-- 核心结构 --&gt;
+&lt;div class="carousel-track" style="display:flex; transition:transform 0.4s;"&gt;
+  &lt;div class="carousel-slide"&gt;第1页&lt;/div&gt;
+  &lt;div class="carousel-slide"&gt;第2页&lt;/div&gt;
+  &lt;div class="carousel-slide"&gt;第3页&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- JS: 通过 translateX 平移 --&gt;
+function goToSlide(index) {
+  track.style.transform = 'translateX(-' + (index * 100) + '%)';
+  currentIndex = index;
+}</code></pre>
+  <p style="font-size:13px;color:#64748b;">
+  ⚡ 关键：每个 slide 宽度 100%，切换就是 <code>translateX(-100%)</code>、<code>translateX(-200%)</code>...以此类推。配合 CSS transition 实现滑动效果。
+  </p>
+</section>
+
+<script>
+// ===== Tab 切换 =====
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabGroup = btn.parentElement;
+    const section = tabGroup.parentElement;
+    section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    section.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    section.querySelector('#' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ===== 折叠面板 =====
+document.querySelectorAll('.acc-header').forEach(header => {
+  header.addEventListener('click', () => {
+    header.classList.toggle('open');
+    const body = header.nextElementSibling;
+    if (body.style.maxHeight) {
+      body.style.maxHeight = null;
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+});
+
+// ===== 轮播 =====
+(function() {
+  const carousel = document.getElementById('demoCarousel');
+  const track = carousel.querySelector('.carousel-track');
+  const slides = track.children;
+  const dotsContainer = carousel.querySelector('.carousel-dots');
+  let current = 0;
+
+  // 创建圆点
+  for (let i = 0; i < slides.length; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot';
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  }
+
+  function goTo(index) {
+    track.style.transform = 'translateX(-' + (index * 100) + '%)';
+    dotsContainer.children[current].classList.remove('active');
+    dotsContainer.children[index].classList.add('active');
+    current = index;
+  }
+
+  carousel.querySelector('.prev').addEventListener('click', () => {
+    goTo(current === 0 ? slides.length - 1 : current - 1);
+  });
+  carousel.querySelector('.next').addEventListener('click', () => {
+    goTo(current === slides.length - 1 ? 0 : current + 1);
+  });
+
+  // 自动播放
+  setInterval(() => {
+    goTo(current === slides.length - 1 ? 0 : current + 1);
+  }, 4000);
+})();
+</script>
+
+</body>
+</html>
