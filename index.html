@@ -563,13 +563,18 @@
 
   <div class="modal-overlay" id="modal">
     <div class="modal">
-      <h3>开始试用</h3>
-      <p>输入邮箱，我们会在 5 分钟内发送激活链接。</p>
-      <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email">
-      <div class="btn-row">
-        <button class="btn btn-outline" onclick="closeModal()">取消</button>
-        <button class="btn btn-primary" onclick="submitEmail()">确认</button>
-      </div>
+      <h3>联系我们</h3>
+      <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+        <input type="hidden" name="access_key" value="5b437b96-4c9b-4af3-9bd5-128341c5c662">
+        <input type="text" name="name" id="cfName" placeholder="您的称呼" style="padding:10px;background:var(--bg);border:1px solid var(--border);color:var(--text-bright);font-size:14px;outline:none">
+        <input type="email" name="email" id="cfEmail" placeholder="you@example.com" style="padding:10px;background:var(--bg);border:1px solid var(--border);color:var(--text-bright);font-size:14px;outline:none">
+        <textarea name="message" id="cfMsg" placeholder="请描述您的需求…" style="padding:10px;background:var(--bg);border:1px solid var(--border);color:var(--text-bright);font-size:14px;outline:none;min-height:80px;resize:vertical"></textarea>
+        <div class="btn-row">
+          <button type="button" class="btn btn-outline" onclick="closeModal()">取消</button>
+          <button type="submit" class="btn btn-primary">发送</button>
+        </div>
+      </form>
+      <div id="formSuccess" style="display:none;text-align:center;padding:10px;color:#4ade80;font-size:13px">提交成功，我们将在 2 个工作日内与您联系。</div>
     </div>
   </div>
 
@@ -579,16 +584,36 @@
     }
     function closeModal() {
       document.getElementById('modal').classList.remove('active');
+      document.getElementById('formSuccess').style.display = 'none';
     }
-    function submitEmail() {
-      var email = document.getElementById('emailInput').value;
-      if (email) {
-        alert('激活链接已发送至 ' + email);
-        closeModal();
-      } else {
-        alert('请输入邮箱地址');
+
+    var cfForm = document.getElementById('contactForm');
+    var cfName = document.getElementById('cfName');
+    var cfEmail = document.getElementById('cfEmail');
+    var cfMsg = document.getElementById('cfMsg');
+    var cfSuccess = document.getElementById('formSuccess');
+
+    cfForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!cfName.value.trim() || !cfEmail.value.trim() || !cfMsg.value.trim()) {
+        alert('请填写所有字段');
+        return;
       }
-    }
+      var data = new FormData(cfForm);
+      fetch(cfForm.action, { method: 'POST', body: data })
+        .then(function(res) {
+          if (res.ok) {
+            cfSuccess.style.display = 'block';
+            cfForm.reset();
+            setTimeout(function() { cfSuccess.style.display = 'none'; closeModal(); }, 4000);
+          } else {
+            alert('发送失败，请稍后重试');
+          }
+        })
+        .catch(function() {
+          alert('网络错误，请检查网络后重试');
+        });
+    });
     function scrollToFeatures() {
       document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
     }

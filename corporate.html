@@ -455,7 +455,8 @@
           <div class="contact-detail">hello@hanhai-design.com</div>
         </div>
 
-        <form id="contactForm" novalidate>
+        <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+          <input type="hidden" name="access_key" value="5b437b96-4c9b-4af3-9bd5-128341c5c662">
           <div class="form-group" id="nameGroup">
             <label for="name">姓名</label>
             <input type="text" id="name" placeholder="您的称呼">
@@ -534,11 +535,20 @@
       }
 
       if (!hasError) {
-        successBox.style.display = 'block';
-        form.reset();
-        setTimeout(function() {
-          successBox.style.display = 'none';
-        }, 4000);
+        var data = new FormData(form);
+        fetch(form.action, { method: 'POST', body: data })
+          .then(function(res) {
+            if (res.ok) {
+              successBox.style.display = 'block';
+              form.reset();
+              setTimeout(function() { successBox.style.display = 'none'; }, 4000);
+            } else {
+              alert('发送失败，请稍后重试');
+            }
+          })
+          .catch(function() {
+            alert('网络错误，请检查网络后重试');
+          });
       }
     });
 
