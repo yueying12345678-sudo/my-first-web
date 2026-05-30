@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据过滤与搜索</title>
+  <style>
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --border: #334155;
+      --text: #cbd5e1; --text-bright: #f1f5f9; --accent: #38bdf8;
+      --code-bg: #0c1222;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7;
+    }
+    header { text-align: center; padding: 80px 24px 48px; }
+    header h1 { font-size: 36px; color: var(--text-bright); margin-bottom: 8px; }
+    header p { color: #64748b; }
+    .lesson {
+      max-width: 800px; margin: 0 auto 64px; padding: 0 24px;
+    }
+    .lesson h2 {
+      font-size: 22px; color: var(--accent);
+      border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 20px;
+    }
+    .lesson h3 { font-size: 16px; color: var(--text-bright); margin: 28px 0 12px; }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 16px 20px; font-size: 13px; overflow-x: auto; margin-bottom: 16px;
+    }
+    code { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+
+    /* ===== 演示区 ===== */
+    .demo-section {
+      background: var(--surface); border: 1px solid var(--border); padding: 28px;
+    }
+
+    /* 搜索框 */
+    .search-input {
+      width: 100%; padding: 10px 16px;
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--text-bright); font-size: 14px; outline: none;
+      font-family: inherit; margin-bottom: 20px; transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .search-input::placeholder { color: #64748b; }
+
+    /* 分类按钮 */
+    .filter-bar {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .filter-btn {
+      padding: 6px 18px; background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); font-size: 13px; cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #000; }
+
+    /* 产品列表 */
+    .product-list { list-style: none; }
+    .product-list li {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+      transition: opacity 0.3s;
+    }
+    .product-list li.hidden { display: none; }
+    .product-list .pname { font-weight: 600; color: var(--text-bright); }
+    .product-list .pcat {
+      font-size: 11px; color: var(--accent); margin-left: 8px;
+    }
+    .product-list .pprice {
+      font-size: 15px; font-weight: 600; color: var(--text);
+      white-space: nowrap;
+    }
+    .no-result {
+      text-align: center; padding: 32px; color: #64748b; font-size: 14px;
+    }
+
+    /* 排序 */
+    .sort-bar {
+      display: flex; gap: 8px; margin-bottom: 16px; align-items: center;
+    }
+    .sort-bar span { font-size: 13px; color: #64748b; margin-right: 4px; }
+    .sort-btn {
+      padding: 4px 14px; background: none; border: 1px solid var(--border);
+      color: var(--text); font-size: 12px; cursor: pointer;
+    }
+    .sort-btn.active { background: var(--border); color: var(--text-bright); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>数据过滤 / 搜索 / 排序</h1>
+  <p>产品列表、文章目录、作品集 —— 一套逻辑吃遍所有场景</p>
+</header>
+
+<!-- ============ 一、搜索过滤 ============ -->
+<section class="lesson">
+  <h2>一、文本搜索</h2>
+  <p>输入关键词，实时过滤列表。</p>
+
+  <div class="demo-section">
+    <input type="text" class="search-input" id="searchInput" placeholder="搜索产品名称...">
+
+    <ul class="product-list" id="searchList"></ul>
+    <div class="no-result" id="noResult" style="display:none">没有匹配的产品</div>
+  </div>
+
+  <pre><code>searchInput.addEventListener('input', function() {
+  var keyword = this.value.toLowerCase().trim();
+  var found = 0;
+
+  items.forEach(function(item) {
+    var name = item.name.toLowerCase();
+    var match = name.includes(keyword);   // 名字里包含关键词？
+    item.el.classList.toggle('hidden', !match); // 不匹配就隐藏
+    if (match) found++;
+  });
+
+  noResult.style.display = found === 0 ? 'block' : 'none';
+});</code></pre>
+  <p style="font-size:13px;color:#64748b;">⚡ 精髓：<code>input</code> 事件在每次输入时触发 → 拿到关键词 → 逐个比对 → toggle 显示/隐藏。includes 做模糊匹配，换成 <code>indexOf</code> 也行。</p>
+</section>
+
+<!-- ============ 二、分类筛选 ============ -->
+<section class="lesson">
+  <h2>二、分类筛选</h2>
+  <p>点击按钮按类型过滤，可以和搜索叠加使用。</p>
+
+  <div class="demo-section">
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-cat="all">全部</button>
+      <button class="filter-btn" data-cat="慕斯">慕斯</button>
+      <button class="filter-btn" data-cat="可颂">可颂</button>
+      <button class="filter-btn" data-cat="挞">挞</button>
+      <button class="filter-btn" data-cat="巧克力">巧克力</button>
+    </div>
+    <ul class="product-list" id="filterList"></ul>
+  </div>
+
+  <pre><code>filterBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    // 切换 active 样式
+    filterBtns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+
+    currentCat = btn.dataset.cat;
+    filterAll(); // 同时应用搜索 + 分类
+  });
+});
+
+function filterAll() {
+  items.forEach(function(item) {
+    var catOk = currentCat === 'all' || item.cat === currentCat;
+    var searchOk = item.name.includes(keyword);
+    item.el.classList.toggle('hidden', !(catOk && searchOk));
+  });
+}</code></pre>
+  <p style="font-size:13px;color:#64748b;">⚡ 精髓：分类和搜索是两个独立条件，最终过滤 = 搜索OK <strong>&&</strong> 分类OK。拆成两个变量，最后取交集。</p>
+</section>
+
+<!-- ============ 三、排序 ============ -->
+<section class="lesson">
+  <h2>三、排序</h2>
+  <p>切换排序方式，价格从低到高、按名称、按分类。</p>
+
+  <div class="demo-section">
+    <div class="sort-bar">
+      <span>排序：</span>
+      <button class="sort-btn active" data-sort="default">默认</button>
+      <button class="sort-btn" data-sort="price-asc">价格 ↑</button>
+      <button class="sort-btn" data-sort="price-desc">价格 ↓</button>
+      <button class="sort-btn" data-sort="name">名称</button>
+    </div>
+    <ul class="product-list" id="sortList"></ul>
+  </div>
+
+  <pre><code>function sortAndRender() {
+  var sorted = items.slice(); // 浅拷贝，不修改原数组
+
+  if (sortBy === 'price-asc') {
+    sorted.sort(function(a, b) { return a.price - b.price; });
+  } else if (sortBy === 'price-desc') {
+    sorted.sort(function(a, b) { return b.price - a.price; });
+  } else if (sortBy === 'name') {
+    sorted.sort(function(a, b) { return a.name.localeCompare(b.name, 'zh'); });
+  }
+
+  // 按新顺序重新插入 DOM
+  var listEl = document.getElementById('sortList');
+  listEl.innerHTML = '';
+  sorted.forEach(function(item) { listEl.appendChild(item.el); });
+}</code></pre>
+  <p style="font-size:13px;color:#64748b;">
+  ⚡ <code>Array.sort()</code> 接受比较函数。数字用 <code>a-b</code>，字符串用 <code>localeCompare</code>（支持中文拼音排序）。
+  </p>
+</section>
+
+<!-- ============ 四、核心模式 ============ -->
+<section class="lesson">
+  <h2>四、万能三步骤</h2>
+  <p>所有过滤场景都是同一个模式：</p>
+
+  <table style="width:100%;margin:16px 0;font-size:14px;">
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);color:var(--accent);font-weight:700;width:80px;">① 存数据</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);">把数据放在 JS 数组里，每条包含 name / cat / price / el（DOM 引用）</td></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);color:var(--accent);font-weight:700;">② 算逻辑</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);">根据搜索词 / 分类 / 排序方式，过滤或重排数组</td></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);color:var(--accent);font-weight:700;">③ 渲结果</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);">toggle hidden 类（过滤）或调整 DOM 顺序（排序）</td></tr>
+  </table>
+
+  <p style="font-size:13px;color:#64748b;">这个模式放到 React/Vue 里也是一样的，只是 ② 变成了 state 更新，③ 由框架自动处理。</p>
+</section>
+
+<script>
+// ===== 共享数据 =====
+var products = [
+  { name: '玫瑰荔枝慕斯',  cat: '慕斯',   price: 48 },
+  { name: '黑松露巧克力',  cat: '巧克力', price: 58 },
+  { name: '焦糖海盐可颂',  cat: '可颂',   price: 32 },
+  { name: '抹茶柚子挞',    cat: '挞',     price: 42 },
+  { name: '提拉米苏杯',    cat: '慕斯',   price: 36 },
+  { name: '杏仁巧克力挞',  cat: '巧克力', price: 55 },
+  { name: '开心果可颂',    cat: '可颂',   price: 38 },
+  { name: '蓝莓芝士挞',    cat: '挞',     price: 45 },
+];
+
+/* ===== 一、搜索 ===== */
+(function() {
+  var listEl = document.getElementById('searchList');
+  var searchInput = document.getElementById('searchInput');
+  var noResult = document.getElementById('noResult');
+
+  // 渲染初始列表，保存 DOM 引用
+  products.forEach(function(p) {
+    var li = document.createElement('li');
+    li.innerHTML = '<span><span class="pname">' + p.name + '</span><span class="pcat">' + p.cat + '</span></span><span class="pprice">&yen;' + p.price + '</span>';
+    p.el = li;
+    listEl.appendChild(li);
+  });
+
+  searchInput.addEventListener('input', function() {
+    var kw = this.value.toLowerCase().trim();
+    var found = 0;
+    products.forEach(function(p) {
+      var match = kw === '' || p.name.toLowerCase().includes(kw);
+      p.el.classList.toggle('hidden', !match);
+      if (match) found++;
+    });
+    noResult.style.display = found === 0 ? 'block' : 'none';
+  });
+})();
+
+/* ===== 二、分类筛选 ===== */
+(function() {
+  var listEl = document.getElementById('filterList');
+  var btns = document.querySelectorAll('#filterBar .filter-btn');
+
+  // 独立 DOM 引用
+  var filterItems = products.map(function(p) {
+    var li = document.createElement('li');
+    li.innerHTML = '<span><span class="pname">' + p.name + '</span><span class="pcat">' + p.cat + '</span></span><span class="pprice">&yen;' + p.price + '</span>';
+    listEl.appendChild(li);
+    return { cat: p.cat, el: li };
+  });
+
+  btns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      btns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var cat = btn.dataset.cat;
+      filterItems.forEach(function(item) {
+        item.el.classList.toggle('hidden', cat !== 'all' && item.cat !== cat);
+      });
+    });
+  });
+})();
+
+/* ===== 三、排序 ===== */
+(function() {
+  var listEl = document.getElementById('sortList');
+  var btns = document.querySelectorAll('.sort-btn');
+  var sortBy = 'default';
+
+  // 独立渲染
+  var sortItems = products.map(function(p) {
+    var li = document.createElement('li');
+    li.innerHTML = '<span><span class="pname">' + p.name + '</span><span class="pcat">' + p.cat + '</span></span><span class="pprice">&yen;' + p.price + '</span>';
+    listEl.appendChild(li);
+    return { name: p.name, cat: p.cat, price: p.price, el: li };
+  });
+
+  function sortAndRender() {
+    var sorted = sortItems.slice();
+    if (sortBy === 'price-asc') {
+      sorted.sort(function(a, b) { return a.price - b.price; });
+    } else if (sortBy === 'price-desc') {
+      sorted.sort(function(a, b) { return b.price - a.price; });
+    } else if (sortBy === 'name') {
+      sorted.sort(function(a, b) { return a.name.localeCompare(b.name, 'zh'); });
+    }
+    // 默认顺序不变
+    listEl.innerHTML = '';
+    sorted.forEach(function(item) { listEl.appendChild(item.el); });
+  }
+
+  btns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      btns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      sortBy = btn.dataset.sort;
+      sortAndRender();
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
