@@ -6,7 +6,7 @@
   <title>簌甜 — 法式甜品工坊</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Prata&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #fef9f0;
@@ -18,7 +18,7 @@
       --accent: #d4785c;
       --accent-light: #f2e0d6;
       --accent-deep: #c0644a;
-      --font-display: 'Prata', Georgia, serif;
+      --font-display: 'Libre Baskerville', Georgia, serif;
       --font-body: 'Lora', Georgia, serif;
     }
 
@@ -66,7 +66,6 @@
     }
     .hero h2 {
       font-family: var(--font-display);
-      font-style: italic;
       font-size: 20px;
       font-weight: 400;
       color: var(--accent);
@@ -193,12 +192,15 @@
       font-style: italic;
     }
     .menu-price {
-      font-family: var(--font-display);
-      font-size: 22px;
+      font-family: var(--font-body);
+      font-size: 24px;
       font-weight: 700;
       color: var(--accent);
       white-space: nowrap;
       font-feature-settings: "lnum" 1;
+      background: var(--accent-light);
+      padding: 6px 16px;
+      border-radius: 2px;
     }
 
     /* ---- 联系 — 全幅底色 ---- */
@@ -293,7 +295,6 @@
       text-align: center;
       font-size: 12px;
       color: var(--text-dim);
-      font-style: italic;
     }
 
     @media (max-width: 768px) {
@@ -339,7 +340,7 @@
         <h3>玫瑰荔枝慕斯</h3>
         <div class="desc">云南玫瑰露  /  海南妃子笑  /  白巧克力</div>
       </div>
-      <div class="menu-price">48</div>
+      <div class="menu-price">&yen;48</div>
     </div>
 
     <div class="menu-item">
@@ -348,7 +349,7 @@
         <h3>焦糖海盐可颂</h3>
         <div class="desc">法国 AOP 黄油  /  布列塔尼海盐  /  焦糖酱</div>
       </div>
-      <div class="menu-price">32</div>
+      <div class="menu-price">&yen;32</div>
     </div>
 
     <div class="menu-item">
@@ -357,7 +358,7 @@
         <h3>抹茶柚子挞</h3>
         <div class="desc">宇治抹茶  /  日本柚子  /  杏仁奶油</div>
       </div>
-      <div class="menu-price">42</div>
+      <div class="menu-price">&yen;42</div>
     </div>
 
     <div class="menu-item">
@@ -366,7 +367,7 @@
         <h3>黑松露巧克力</h3>
         <div class="desc">法芙娜 70%  /  意大利松露油  /  可可碎</div>
       </div>
-      <div class="menu-price">58</div>
+      <div class="menu-price">&yen;58</div>
     </div>
   </section>
 
