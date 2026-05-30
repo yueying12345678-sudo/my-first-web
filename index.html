@@ -261,6 +261,8 @@
       padding: 44px 32px;
       text-align: center;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
     .price-card.featured {
       background: var(--surface);
@@ -301,6 +303,10 @@
       list-style: none;
       margin: 28px 0 32px;
       text-align: left;
+      flex: 1;
+    }
+    .price-card .btn {
+      margin-top: auto;
     }
     .price-features li {
       font-size: 13px;
