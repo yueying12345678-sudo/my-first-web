@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>你的名字</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 20px;
+      background: #1a0a2e;
+      color: #c9d1d9;
+    }
+    h1 { color: #58a6ff; }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .card h2 { color: #f0f6fc; margin-top: 0; }
+    .tag {
+      display: inline-block;
+      background: #1f6feb33;
+      color: #58a6ff;
+      border: 1px solid #1f6feb55;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 13px;
+      margin-right: 6px;
+    }
+    .warning {
+      background: #2a1f00;
+      border: 1px solid #d2991a;
+      color: #d2991a;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 24px;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+    }
+  </style>
+  <script>
+    function sayHello() {
+      alert('成功点击');
+    }
+
+    function updateText() {
+      var input = document.getElementById('myInput');
+      var output = document.getElementById('output');
+      output.textContent = input.value;
+    }
+  </script>
+</head>
+<body>
+
+  <h1>我们的头脑比天空更广阔</h1>
+  <p>这个网页就是一个 <strong>HTML 文件</strong>，浏览器打开它就能看到内容。</p>
+
+  <div class="card">
+    <h2>我学到了什么</h2>
+    <p>HTML 用标签来组织内容，每个 <code>&lt;标签&gt;</code> 包裹着一段内容。</p>
+    <p>比如：<code>&lt;h1&gt;</code> 是标题，<code>&lt;p&gt;</code> 是段落。</p>
+  </div>
+
+  <div class="card">
+    <h2>我的目标</h2>
+    <p><span class="tag">Day 1</span> 理解虚无</p>
+    <p><span class="tag">Day 2</span> 感受虚无</p>
+    <p><span class="tag">Day 7</span> 从虚无中获得爱</p>
+  </div>
+
+  <div class="warning">
+    <strong>核心认知：</strong>网页 = HTML（骨架）+ CSS（皮囊）+ JavaScript（肌肉）。先学骨架，后面就好办了。
+  </div>
+
+  <button onclick="sayHello()" style="
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: #238636;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 16px;
+  ">点我试试</button>
+
+  <div class="card" style="margin-top: 16px;">
+    <h2>JavaScript 实时交互</h2>
+    <input
+      id="myInput"
+      type="text"
+      placeholder="在这里随便打字..."
+      oninput="updateText()"
+      style="
+        width: 100%;
+        padding: 10px;
+        background: #0d1117;
+        color: #c9d1d9;
+        border: 1px solid #30363d;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+      "
+    />
+    <p style="margin-top: 16px; color: #8b949e;">你输入的内容：</p>
+    <p id="output" style="color: #58a6ff; font-size: 20px; min-height: 28px;"></p>
+  </div>
+
+</body>
+</html>

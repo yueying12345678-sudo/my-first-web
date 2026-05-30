@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星穹科技 — 商业航天数据分析平台</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #0e0e15;
+      --border: #1a1a28;
+      --text: #9e9eaa;
+      --text-dim: #5c5c6a;
+      --text-bright: #e8e8ed;
+      --accent: #6c5ce7;
+      --accent-glow: rgba(108,92,231,0.12);
+      --font-mono: 'Space Mono', monospace;
+      --font-sans: 'Work Sans', system-ui, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 48px;
+      background: rgba(10,10,15,0.92);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .logo {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-bright);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .logo .accent { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-bright); }
+
+    /* ---- HERO ---- */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 85vh;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-content {
+      padding: 100px 48px 80px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-family: var(--font-mono);
+      font-size: 44px;
+      font-weight: 700;
+      color: var(--text-bright);
+      line-height: 1.2;
+      margin: 16px 0 20px;
+      letter-spacing: -0.5px;
+    }
+    .hero h1 .accent { color: var(--accent); }
+
+    .hero p {
+      font-size: 15px;
+      color: var(--text-dim);
+      max-width: 420px;
+      margin-bottom: 36px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      transition: all 0.18s ease;
+    }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #7c6ef0;
+      border-color: #7c6ef0;
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--text-bright);
+    }
+
+    .hero-visual {
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      gap: 2px;
+      width: 320px;
+      height: 320px;
+    }
+    .hero-grid .dot {
+      width: 100%;
+      height: 100%;
+      background: var(--border);
+      transition: background 1.5s ease;
+    }
+    .hero-grid .dot.lit { background: var(--accent); }
+    .hero-grid .dot.lit-bright { background: #8b7cf0; }
+    .hero-grid .dot.lit-dim { background: #3c3480; }
+
+    /* ---- STATS ---- */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-item {
+      padding: 40px 32px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-bright);
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* ---- SECTION ---- */
+    .section {
+      padding: 80px 80px;
+    }
+    .section-header {
+      margin-bottom: 56px;
+    }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .section h2 {
+      font-family: var(--font-mono);
+      font-size: 28px;
+      color: var(--text-bright);
+      margin-top: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    /* ---- FEATURES ---- */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .feature-card {
+      background: var(--bg);
+      padding: 40px 32px;
+      transition: background 0.2s;
+    }
+    .feature-card:hover {
+      background: var(--surface);
+    }
+    .feature-number {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+    .feature-card h3 {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      color: var(--text-bright);
+      margin: 12px 0 8px;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* ---- PRICING ---- */
+    .pricing {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .price-card {
+      background: var(--bg);
+      padding: 44px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .price-card.featured {
+      background: var(--surface);
+    }
+    .price-badge {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+    }
+    .price-card h3 {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text-bright);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .price-amount {
+      font-family: var(--font-mono);
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin: 16px 0;
+    }
+    .price-amount .unit {
+      font-size: 14px;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+    .price-features {
+      list-style: none;
+      margin: 28px 0 32px;
+      text-align: left;
+    }
+    .price-features li {
+      font-size: 13px;
+      color: var(--text);
+      padding: 7px 0 7px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      position: relative;
+    }
+    .price-features li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 14px;
+      width: 6px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .price-features li:last-child { border: none; }
+
+    /* ---- MODAL ---- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(4,4,10,0.88);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 40px;
+      max-width: 400px;
+      width: 92%;
+    }
+    .modal h3 {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--text-bright);
+      margin-bottom: 6px;
+    }
+    .modal p {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+    .modal input {
+      width: 100%;
+      padding: 12px;
+      background: var(--bg);
+      color: var(--text-bright);
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      margin-bottom: 16px;
+      outline: none;
+    }
+    .modal input:focus { border-color: var(--accent); }
+    .modal .btn-row { justify-content: flex-end; }
+
+    /* ---- FOOTER ---- */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-content { padding: 56px 24px; }
+      .hero h1 { font-size: 30px; }
+      .hero-visual { display: none; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .section { padding: 48px 24px; }
+      .features, .pricing { grid-template-columns: 1fr; }
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      footer { padding: 24px; flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">星穹<span class="accent">科技</span></div>
+    <ul class="nav-links">
+      <li><a href="#">首页</a></li>
+      <li><a href="#">产品</a></li>
+      <li><a href="#">文档</a></li>
+      <li><a href="#">价格</a></li>
+      <li><a href="#">联系</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-label">Commercial Aerospace Intelligence</div>
+      <h1>我们的恋人 是用幻想吹出来的泡沫<br><span class="accent">商业航天</span></h1>
+      <p>全球发射数据、产业链图谱、概念股监控，一个平台覆盖航天投资决策所需的一切信息。</p>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="openModal()">开始试用</button>
+        <button class="btn btn-outline" onclick="scrollToFeatures()">了解产品</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-grid" id="heroGrid"></div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat-item">
+      <div class="stat-value">500+</div>
+      <div class="stat-label">覆盖企业</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">实时</div>
+      <div class="stat-label">数据频率</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">1200+</div>
+      <div class="stat-label">日活用户</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">99.7%</div>
+      <div class="stat-label">数据准确率</div>
+    </div>
+  </div>
+
+  <section class="section" id="features">
+    <div class="section-header">
+      <div class="section-label">Capabilities</div>
+      <h2>核心能力</h2>
+    </div>
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-number">01</div>
+        <h3>发射追踪</h3>
+        <p>全球火箭发射计划、窗口期、载荷信息实时同步，覆盖 SpaceX、中国航天等主要发射服务商。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-number">02</div>
+        <h3>产业链图谱</h3>
+        <p>从上游稀有材料到下游卫星应用，可视化供应链关系，定位关键供应商与客户。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-number">03</div>
+        <h3>概念股监控</h3>
+        <p>A 股及美股商业航天标的实时异动检测，主力资金流向追踪，自定义预警规则。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-number">04</div>
+        <h3>概念股监控</h3>
+        <p>啥都不想写 我累了</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Pricing</div>
+      <h2>选择方案</h2>
+    </div>
+    <div class="pricing">
+      <div class="price-card">
+        <h3>入门</h3>
+        <div class="price-amount">免费<span class="unit"> /月</span></div>
+        <ul class="price-features">
+          <li>基础行情数据</li>
+          <li>每日 5 次查询</li>
+          <li>标准数据延迟</li>
+        </ul>
+        <button class="btn btn-outline" style="width:100%">开始使用</button>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-badge">推荐</div>
+        <h3>专业</h3>
+        <div class="price-amount">&yen;9.9<span class="unit"> /月</span></div>
+        <ul class="price-features">
+          <li>实时行情数据</li>
+          <li>无限次查询</li>
+          <li>异动预警推送</li>
+          <li>产业链深度数据</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%">立即订阅</button>
+      </div>
+
+      <div class="price-card">
+        <h3>企业</h3>
+        <div class="price-amount">&yen;19.9<span class="unit"> /月</span></div>
+        <ul class="price-features">
+          <li>全部专业版功能</li>
+          <li>API 接口接入</li>
+          <li>定制数据分析报告</li>
+          <li>专属客户支持</li>
+        </ul>
+        <button class="btn btn-outline" style="width:100%">联系我们</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>claude科技 &copy; 2026</p>
+    <p>让每一次决策都有数据支撑</p>
+  </footer>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3>开始试用</h3>
+      <p>输入邮箱，我们会在 5 分钟内发送激活链接。</p>
+      <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email">
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="closeModal()">取消</button>
+        <button class="btn btn-primary" onclick="submitEmail()">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('modal').classList.add('active');
+    }
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
+    function submitEmail() {
+      var email = document.getElementById('emailInput').value;
+      if (email) {
+        alert('激活链接已发送至 ' + email);
+        closeModal();
+      } else {
+        alert('请输入邮箱地址');
+      }
+    }
+    function scrollToFeatures() {
+      document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 右侧动态网格
+    (function() {
+      var grid = document.getElementById('heroGrid');
+      var html = '';
+      for (var i = 0; i < 64; i++) { html += '<div class="dot"></div>'; }
+      grid.innerHTML = html;
+
+      var dots = grid.querySelectorAll('.dot');
+      function tick() {
+        var idx = Math.floor(Math.random() * 64);
+        var cls = Math.random();
+        if (cls < 0.15) dots[idx].className = 'dot lit-bright';
+        else if (cls < 0.45) dots[idx].className = 'dot lit';
+        else if (cls < 0.65) dots[idx].className = 'dot lit-dim';
+        else dots[idx].className = 'dot';
+      }
+      setInterval(tick, 120);
+      for (var j = 0; j < 18; j++) { tick(); }
+    })();
+  </script>
+
+</body>
+</html>
