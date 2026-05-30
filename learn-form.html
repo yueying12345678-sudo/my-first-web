@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表单对接后端</title>
+  <style>
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --border: #334155;
+      --text: #cbd5e1; --text-bright: #f1f5f9; --accent: #38bdf8;
+      --code-bg: #0c1222; --green: #4ade80;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7;
+    }
+    header { text-align: center; padding: 80px 24px 48px; }
+    header h1 { font-size: 36px; color: var(--text-bright); margin-bottom: 8px; }
+    header p { color: #64748b; }
+    .lesson {
+      max-width: 800px; margin: 0 auto 64px; padding: 0 24px;
+    }
+    .lesson h2 {
+      font-size: 22px; color: var(--accent);
+      border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 20px;
+    }
+    .lesson h3 { font-size: 16px; color: var(--text-bright); margin: 24px 0 12px; }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 16px 20px; font-size: 13px; overflow-x: auto; margin-bottom: 16px;
+    }
+    code { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+
+    .callout {
+      background: rgba(56,189,248,0.1); border-left: 3px solid var(--accent);
+      padding: 12px 16px; margin: 16px 0; font-size: 14px;
+    }
+
+    /* ===== 演示表单 ===== */
+    .demo-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 32px;
+      max-width: 480px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 13px; color: var(--text);
+      margin-bottom: 6px; font-weight: 600;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%; padding: 10px 14px;
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--text-bright); font-size: 14px; outline: none;
+      font-family: inherit; transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--accent); }
+    .form-group textarea { min-height: 90px; resize: vertical; }
+    .form-group .hint { font-size: 11px; color: #64748b; margin-top: 4px; }
+
+    .btn-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .btn {
+      padding: 12px 28px; background: var(--accent); color: #000;
+      border: none; font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn:hover { background: #7dd3fc; }
+    .btn:active { transform: scale(0.97); }
+    .btn-outline {
+      background: transparent; border: 1px solid var(--border); color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--text-bright); background: transparent; }
+
+    .result-box {
+      margin-top: 16px; padding: 14px 18px; font-size: 14px; display: none;
+    }
+    .result-box.success { display: block; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); color: var(--green); }
+    .result-box.error { display: block; background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: #f87171; }
+
+    /* ===== 方法对比表 ===== */
+    .compare-table {
+      width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px;
+    }
+    .compare-table th, .compare-table td {
+      padding: 10px 14px; border: 1px solid var(--border); text-align: left;
+    }
+    .compare-table th { background: var(--surface); color: var(--text-bright); font-weight: 600; }
+    .compare-table td:first-child { white-space: nowrap; font-weight: 600; color: var(--text-bright); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>表单对接后端</h1>
+  <p>让联系表单真正发消息给客户 —— 客单价翻倍的关键技能</p>
+</header>
+
+<!-- ============ 一、表单怎么工作的 ============ -->
+<section class="lesson">
+  <h2>一、表单是怎么提交的</h2>
+
+  <pre><code>&lt;form action="https://example.com/submit" method="POST"&gt;
+  &lt;input name="email" type="email"&gt;       &lt;!-- name 属性是后端收到的字段名 --&gt;
+  &lt;input name="message" type="text"&gt;
+  &lt;button type="submit"&gt;发送&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+  <p>点"发送"后，浏览器把表单数据打包发给 <code>action</code> 指定的 URL，然后页面跳转过去。</p>
+  <p style="color:#64748b;font-size:13px;">⚠️ GitHub Pages 只托管静态文件，不能运行后端代码。所以需要<strong>第三方表单服务</strong>来接收数据并转发邮件。</p>
+</section>
+
+<!-- ============ 二、Web3Forms（推荐） ============ -->
+<section class="lesson">
+  <h2>二、方案 A：Web3Forms（推荐，免费额度大）</h2>
+  <p>每月 250 次免费提交，无需注册信用卡，上手最快。</p>
+
+  <h3>步骤</h3>
+  <p>1. 打开 <a href="https://web3forms.com" style="color:var(--accent)" target="_blank">web3forms.com</a>，点 "Get Access Key"，输入邮箱</p>
+  <p>2. 收邮件拿到一个 access key（形如 <code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code>）</p>
+  <p>3. 把表单的 action 改成 Web3Forms 的地址，加一个隐藏字段放 key</p>
+
+  <h3>代码</h3>
+  <pre><code>&lt;form action="https://api.web3forms.com/submit" method="POST"&gt;
+  &lt;!-- 隐藏字段：你的 access key --&gt;
+  &lt;input type="hidden" name="access_key" value="你的KEY"&gt;
+
+  &lt;!-- 你的表单字段 --&gt;
+  &lt;input type="text" name="name" required&gt;
+  &lt;input type="email" name="email" required&gt;
+  &lt;textarea name="message" required&gt;&lt;/textarea&gt;
+
+  &lt;button type="submit"&gt;发送&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+  <div class="callout">
+    ✅ 优点：免费额度 250/月、支持自定义邮件模板、可设置跳转页面、无品牌水印<br>
+    ❌ 缺点：需要注册（免费）
+  </div>
+</section>
+
+<!-- ============ 三、Formspree ============ -->
+<section class="lesson">
+  <h2>三、方案 B：Formspree（老牌稳定）</h2>
+  <p>每月 50 次免费提交，API 更简洁。</p>
+
+  <pre><code>&lt;form action="https://formspree.io/f/你的FORM_ID" method="POST"&gt;
+  &lt;input type="email" name="email"&gt;
+  &lt;textarea name="message"&gt;&lt;/textarea&gt;
+  &lt;button type="submit"&gt;发送&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+  <p>注册后在 Formspree 后台创建一个 Form，拿到 ID 替换到 action URL 即可。</p>
+
+  <div class="callout">
+    ✅ 优点：老牌服务、API 简单、文档全<br>
+    ❌ 缺点：免费仅 50 次/月，超出需付费
+  </div>
+</section>
+
+<!-- ============ 四、进阶：AJAX 提交 ============ -->
+<section class="lesson">
+  <h2>四、进阶：AJAX 无刷新提交</h2>
+  <p>上面的方式提交后会<strong>跳转页面</strong>，体验不好。用 JavaScript 的 <code>fetch</code> API 可以做到无刷新提交，并在原页面显示结果。</p>
+
+  <h3>演示</h3>
+  <form class="demo-form" id="ajaxDemo">
+    <div class="form-group">
+      <label for="demoEmail">邮箱</label>
+      <input type="email" id="demoEmail" name="email" placeholder="you@example.com" required>
+    </div>
+    <div class="form-group">
+      <label for="demoMsg">留言</label>
+      <textarea id="demoMsg" name="message" placeholder="测试消息..." required></textarea>
+    </div>
+    <div class="btn-row">
+      <button type="submit" class="btn">发送（演示）</button>
+      <span style="font-size:12px;color:#64748b">不会真发，仅模拟流程</span>
+    </div>
+    <div class="result-box" id="resultBox"></div>
+  </form>
+
+  <pre><code>form.addEventListener('submit', async (e) => {
+  e.preventDefault();  // 阻止默认跳转
+
+  const formData = new FormData(form);  // 自动收集所有字段
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (res.ok) {
+      // 成功 — 显示成功提示
+      successBox.style.display = 'block';
+      form.reset();
+    } else {
+      // 失败 — 显示错误提示
+      throw new Error('提交失败');
+    }
+  } catch (err) {
+    alert('发送失败，请稍后重试');
+  }
+});</code></pre>
+
+  <p style="font-size:13px;color:#64748b;">
+  ⚡ 关键：<code>e.preventDefault()</code> 阻止页面跳转 → <code>FormData</code> 自动收集表单数据 → <code>fetch</code> 异步发送 → 根据返回结果显示成功/失败
+  </p>
+</section>
+
+<!-- ============ 五、接入现有模板 ============ -->
+<section class="lesson">
+  <h2>五、怎么接到你的模板上</h2>
+  <p>三个模板的表单结构都一样，改一处即可：</p>
+
+  <ol style="padding-left:20px;margin-bottom:16px;">
+    <li style="margin-bottom:8px;">去 web3forms.com 拿一个 access key</li>
+    <li style="margin-bottom:8px;">找到模板的 <code>&lt;form&gt;</code>，加上 action 和隐藏字段</li>
+    <li style="margin-bottom:8px;">把 <code>form.reset()</code> 后的假成功提示改成真逻辑</li>
+  </ol>
+
+  <table class="compare-table">
+    <tr><th>模板</th><th>当前状态</th><th>改造后</th></tr>
+    <tr><td>星穹科技</td><td>弹窗填邮箱 → alert 假提示</td><td>弹窗填邮箱 → 发到客户邮箱</td></tr>
+    <tr><td>瀚海建设</td><td>表单 JS 验证 → 假成功</td><td>验证通过 → fetch 提交 → 真发邮件</td></tr>
+    <tr><td>簌甜</td><td>同上</td><td>同上</td></tr>
+  </table>
+
+  <p style="font-size:13px;color:var(--green);">
+  ✅ 给客户交付时，帮他注册好 Web3Forms、填好 key，多收 50-100 块。客户会觉得你"把一切都搞定了"。
+  </p>
+</section>
+
+<script>
+// AJAX 演示（只模拟流程，不真实发送）
+document.getElementById('ajaxDemo').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const resultBox = document.getElementById('resultBox');
+  const email = document.getElementById('demoEmail').value;
+
+  resultBox.className = 'result-box';
+  resultBox.textContent = '模拟发送中...';
+  resultBox.style.display = 'block';
+
+  // 模拟网络请求延迟
+  await new Promise(r => setTimeout(r, 800));
+
+  if (email && email.includes('@')) {
+    resultBox.className = 'result-box success';
+    resultBox.textContent = '模拟成功！实际接入 Web3Forms 后，' + email + ' 会收到回复。';
+    this.reset();
+  } else {
+    resultBox.className = 'result-box error';
+    resultBox.textContent = '请输入有效的邮箱地址';
+  }
+});
+</script>
+
+</body>
+</html>
