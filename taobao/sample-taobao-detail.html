@@ -97,6 +97,27 @@ body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;background:#f5f5f5;c
 .c-cyan{background:#1890ff}
 .c-lime{background:#7cb305}
 .c-gold{background:#d48806}
+
+/* 店铺装修 */
+.store-demo{border:1px solid #eee;border-radius:8px;overflow:hidden}
+.store-header{display:flex;align-items:center;gap:16px;padding:16px 24px;background:#fff;border-bottom:1px solid #f0f0f0}
+.store-logo{width:56px;height:56px;border-radius:12px;background:#ff5000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;flex-shrink:0}
+.store-info{flex:1}
+.store-info .sname{font-size:17px;font-weight:600;color:#222}
+.store-info .sdesc{font-size:12px;color:#999;margin-top:2px}
+.store-nav{display:flex;background:#fff;padding:0 24px}
+.store-nav span{padding:14px 20px;font-size:13px;color:#666;cursor:pointer}
+.store-nav span.active{color:#ff5000;border-bottom:2px solid #ff5000;font-weight:600}
+
+/* 海报 */
+.banner-demo{display:flex;flex-direction:column;gap:16px}
+.banner-a{background:linear-gradient(90deg,#ff5000,#ff6b35);border-radius:8px;padding:36px 32px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.banner-a .b-left h4{font-size:22px;margin-bottom:6px}
+.banner-a .b-left p{font-size:13px;opacity:.85}
+.banner-a .b-btn{background:#fff;color:#ff5000;padding:10px 24px;border-radius:20px;font-size:14px;font-weight:600;white-space:nowrap}
+.banner-b{background:#fff;border:2px solid #ff5000;border-radius:8px;padding:32px;text-align:center}
+.banner-b h4{font-size:20px;color:#ff5000;margin-bottom:8px}
+.banner-b p{font-size:13px;color:#999}
 </style>
 </head>
 <body>
@@ -276,6 +297,43 @@ body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;background:#f5f5f5;c
       <div class="package-item"><div class="p-img">充电仓</div><div class="p-name">LED 数显充电仓</div></div>
       <div class="package-item"><div class="p-img">Type-C 线</div><div class="p-name">30cm 快充数据线</div></div>
       <div class="package-item"><div class="p-img">耳帽 x3</div><div class="p-name">S/M/L 三对硅胶耳帽</div></div>
+    </div>
+  </div>
+
+  <!-- ===== 店铺装修示例 ===== -->
+  <div class="section">
+    <div class="section-title">店铺装修</div>
+    <div class="divider"></div>
+    <div class="section-sub">店招 / 分类导航 / 首页排版</div>
+    <div class="store-demo">
+      <div class="store-header">
+        <div class="store-logo">Q9</div>
+        <div class="store-info">
+          <div class="sname">Q9 数码旗舰店</div>
+          <div class="sdesc">专注高品质无线音频设备 | 正品保障</div>
+        </div>
+        <div style="font-size:12px;color:#ff5000;border:1px solid #ff5000;padding:4px 10px;border-radius:12px">关注</div>
+      </div>
+      <div class="store-nav">
+        <span class="active">首页</span><span>全部商品</span><span>新品</span><span>热销</span><span>品牌故事</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 海报示例 ===== -->
+  <div class="section" style="background:#fafafa">
+    <div class="section-title">海报 Banner</div>
+    <div class="divider"></div>
+    <div class="section-sub">活动促销 / 新品宣传 / 节日专题</div>
+    <div class="banner-demo">
+      <div class="banner-a">
+        <div class="b-left"><h4>新品首发 限时特惠</h4><p>Q9 真无线降噪耳机 | 下单立减 120</p></div>
+        <div class="b-btn">立即抢购</div>
+      </div>
+      <div class="banner-b">
+        <h4>全场满 199 减 30</h4>
+        <p>活动时间：即日起至月末 | 可与店铺券叠加</p>
+      </div>
     </div>
   </div>
 
