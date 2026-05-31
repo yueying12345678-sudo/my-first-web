@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexbox 弹性布局</title>
+  <style>
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --border: #334155;
+      --text: #cbd5e1; --text-bright: #f1f5f9; --accent: #38bdf8;
+      --code-bg: #0c1222; --green: #4ade80; --pink: #f472b6;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7;
+    }
+    header { text-align: center; padding: 80px 24px 48px; }
+    header h1 { font-size: 36px; color: var(--text-bright); margin-bottom: 8px; }
+    header p { color: #64748b; }
+    .lesson {
+      max-width: 800px; margin: 0 auto 64px; padding: 0 24px;
+    }
+    .lesson h2 {
+      font-size: 22px; color: var(--accent);
+      border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 20px;
+    }
+    .lesson h3 { font-size: 16px; color: var(--text-bright); margin: 24px 0 12px; }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 16px 20px; font-size: 13px; overflow-x: auto; margin-bottom: 16px;
+    }
+    code { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+
+    .demo-section {
+      background: var(--surface); border: 1px solid var(--border); padding: 28px; margin-bottom: 16px;
+    }
+    .flex-container {
+      display: flex; gap: 8px; background: var(--code-bg);
+      border: 1px dashed var(--border); min-height: 100px; padding: 8px;
+      transition: all 0.3s; flex-wrap: wrap; align-items: stretch;
+    }
+    .flex-item {
+      background: var(--surface); border: 2px solid var(--accent);
+      color: var(--text-bright); font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      min-width: 60px; padding: 12px 16px; font-size: 14px;
+      transition: all 0.3s;
+    }
+    .flex-item:nth-child(odd) { border-color: var(--pink); }
+    .flex-item:nth-child(3n) { border-color: var(--green); }
+
+    .control-bar {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center;
+    }
+    .control-bar label { font-size: 13px; color: #64748b; margin-right: 2px; }
+    .control-bar select, .control-bar button {
+      padding: 6px 12px; background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); font-size: 13px; cursor: pointer; font-family: inherit;
+    }
+    .control-bar button.active { background: var(--accent); border-color: var(--accent); color: #000; }
+    .callout {
+      background: rgba(56,189,248,0.1); border-left: 3px solid var(--accent);
+      padding: 12px 16px; margin: 16px 0; font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Flexbox 弹性布局</h1>
+  <p>一维布局神器——导航栏、卡片排列、居中对齐，全用它</p>
+</header>
+
+<!-- 一、主轴方向 -->
+<section class="lesson">
+  <h2>一、主轴方向 flex-direction</h2>
+  <p>决定元素排列方向：横着排还是竖着排。</p>
+  <div class="control-bar">
+    <label>方向：</label>
+    <select id="fdSelect">
+      <option value="row">row（默认，左→右）</option>
+      <option value="row-reverse">row-reverse（右→左）</option>
+      <option value="column">column（上→下）</option>
+      <option value="column-reverse">column-reverse（下→上）</option>
+    </select>
+  </div>
+  <div class="flex-container" id="fdDemo">
+    <div class="flex-item">A</div><div class="flex-item">B</div><div class="flex-item">C</div>
+  </div>
+  <pre><code>.container {
+  display: flex;
+  flex-direction: row;          /* row | column | row-reverse | column-reverse */
+}</code></pre>
+</section>
+
+<!-- 二、主轴对齐 -->
+<section class="lesson">
+  <h2>二、主轴对齐 justify-content</h2>
+  <p>元素在主轴上的分布方式。</p>
+  <div class="control-bar">
+    <label>对齐：</label>
+    <button class="jc-btn active" data-jc="flex-start">头</button>
+    <button class="jc-btn" data-jc="center">中</button>
+    <button class="jc-btn" data-jc="flex-end">尾</button>
+    <button class="jc-btn" data-jc="space-between">between</button>
+    <button class="jc-btn" data-jc="space-around">around</button>
+    <button class="jc-btn" data-jc="space-evenly">evenly</button>
+  </div>
+  <div class="flex-container" id="jcDemo">
+    <div class="flex-item">1</div><div class="flex-item">2</div><div class="flex-item">3</div>
+  </div>
+  <pre><code>.container {
+  display: flex;
+  justify-content: center;  /* 最常用：水平居中 */
+  /* 其他：flex-start | flex-end | space-between | space-around | space-evenly */
+}</code></pre>
+  <p style="font-size:13px;color:#64748b;">space-between = 两端贴边，中间均分 | space-around = 每个元素左右有相同间距 | space-evenly = 所有间隙完全相等</p>
+</section>
+
+<!-- 三、交叉轴对齐 -->
+<section class="lesson">
+  <h2>三、交叉轴对齐 align-items</h2>
+  <p>元素在交叉轴（垂直于主轴）上的对齐方式。最经典的用法：<strong>垂直居中</strong>。</p>
+  <div class="control-bar">
+    <label>对齐：</label>
+    <button class="ai-btn active" data-ai="stretch">stretch</button>
+    <button class="ai-btn" data-ai="flex-start">顶</button>
+    <button class="ai-btn" data-ai="center">中</button>
+    <button class="ai-btn" data-ai="flex-end">底</button>
+  </div>
+  <div class="flex-container" id="aiDemo" style="height:140px;">
+    <div class="flex-item" style="height:auto;min-height:40px;">短</div>
+    <div class="flex-item" style="height:auto;min-height:70px;">高</div>
+    <div class="flex-item" style="height:auto;min-height:50px;">中</div>
+  </div>
+  <pre><code>.container {
+  display: flex;
+  align-items: center;       /* 垂直居中 — 这行值千金 */
+  /* 其他：stretch | flex-start | flex-end */
+}</code></pre>
+  <div class="callout">完美居中只需两行：<code>display:flex; align-items:center; justify-content:center;</code> —— 告别 margin 负值和绝对定位的噩梦。</div>
+</section>
+
+<!-- 四、换行 -->
+<section class="lesson">
+  <h2>四、换行 flex-wrap</h2>
+  <p>默认不换行（挤在一行）。设置 wrap 后，空间不够自动换到下一行。</p>
+  <div class="control-bar">
+    <label>换行：</label>
+    <button class="fw-btn active" data-fw="nowrap">nowrap（不换）</button>
+    <button class="fw-btn" data-fw="wrap">wrap（换行）</button>
+  </div>
+  <div class="flex-container" id="fwDemo">
+    <div class="flex-item">项目 1</div><div class="flex-item">项目 2</div><div class="flex-item">项目 3</div>
+    <div class="flex-item">项目 4</div><div class="flex-item">项目 5</div><div class="flex-item">项目 6</div>
+  </div>
+  <pre><code>.container {
+  display: flex;
+  flex-wrap: wrap;           /* nowrap | wrap */
+  gap: 12px;                 /* 元素间距，比 margin 好用 */
+}</code></pre>
+</section>
+
+<!-- 五、卡片实战 -->
+<section class="lesson">
+  <h2>五、实战：卡片网格</h2>
+  <p>用 flex + wrap 做一个自适应的卡片列表——改变窗口宽度，卡片自动调整每行数量。</p>
+  <div class="demo-section" id="cardDemo" style="display:flex;flex-wrap:wrap;gap:16px;">
+    <!-- JS 动态生成 -->
+  </div>
+  <pre><code>.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.card {
+  flex: 0 1 200px;          /* 不放大，可缩小，基础宽度 200px */
+  /* 等价于：
+     flex-grow: 0;          — 不占多余空间
+     flex-shrink: 1;        — 空间不够时可以缩小
+     flex-basis: 200px;     — 初始宽度 200px
+  */
+}</code></pre>
+  <p style="font-size:13px;color:#64748b;">flex 三件套里最常用的是这个组合：元素宽度固定但数量自适应，比写死 grid-template-columns 灵活。</p>
+</section>
+
+<script>
+// 一、主轴方向
+document.getElementById('fdSelect').addEventListener('change', function() {
+  document.getElementById('fdDemo').style.flexDirection = this.value;
+});
+
+// 二、主轴对齐
+document.querySelectorAll('.jc-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.jc-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('jcDemo').style.justifyContent = btn.dataset.jc;
+  });
+});
+
+// 三、交叉轴
+document.querySelectorAll('.ai-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.ai-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('aiDemo').style.alignItems = btn.dataset.ai;
+  });
+});
+
+// 四、换行
+document.querySelectorAll('.fw-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.fw-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('fwDemo').style.flexWrap = btn.dataset.fw;
+  });
+});
+
+// 五、卡片实战
+(function() {
+  var cards = ['用户管理', '订单系统', '数据分析', '消息中心', '权限设置', '系统配置', '日志审计'];
+  var container = document.getElementById('cardDemo');
+  cards.forEach(function(name) {
+    var card = document.createElement('div');
+    card.style.cssText = 'flex:0 1 180px;background:var(--code-bg);border:1px solid var(--border);padding:28px 16px;text-align:center;font-size:14px;color:var(--text-bright);';
+    card.textContent = name;
+    container.appendChild(card);
+  });
+})();
+</script>
+
+</body>
+</html>

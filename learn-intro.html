@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML/CSS/JS 是什么</title>
+  <style>
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --border: #334155;
+      --text: #cbd5e1; --text-bright: #f1f5f9; --accent: #38bdf8;
+      --code-bg: #0c1222; --green: #4ade80; --pink: #f472b6; --orange: #fb923c;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7;
+    }
+    header { text-align: center; padding: 80px 24px 48px; }
+    header h1 { font-size: 36px; color: var(--text-bright); margin-bottom: 8px; }
+    header p { color: #64748b; }
+    .lesson {
+      max-width: 800px; margin: 0 auto 64px; padding: 0 24px;
+    }
+    .lesson h2 {
+      font-size: 22px; color: var(--accent);
+      border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 20px;
+    }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 16px 20px; font-size: 13px; overflow-x: auto; margin-bottom: 16px;
+    }
+    code { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+    .demo-section {
+      background: var(--surface); border: 1px solid var(--border); padding: 28px; margin-bottom: 16px;
+    }
+    .callout {
+      background: rgba(56,189,248,0.1); border-left: 3px solid var(--accent);
+      padding: 12px 16px; margin: 16px 0; font-size: 14px;
+    }
+
+    .three-col {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 16px 0;
+    }
+    .col-card {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 24px 16px; text-align: center; border-radius: 6px;
+    }
+    .col-card h4 { font-size: 18px; margin-bottom: 8px; }
+    .col-card:nth-child(1) h4 { color: var(--orange); }
+    .col-card:nth-child(2) h4 { color: var(--accent); }
+    .col-card:nth-child(3) h4 { color: var(--green); }
+    .col-card p { font-size: 13px; color: #94a3b8; }
+
+    .input-demo { display: flex; gap: 10px; align-items: center; }
+    .input-demo input {
+      flex: 1; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border);
+      color: var(--text-bright); font-size: 14px; outline: none; font-family: inherit;
+    }
+    .input-demo input:focus { border-color: var(--accent); }
+    .input-demo button {
+      padding: 10px 20px; background: var(--accent); color: #000;
+      border: none; font-weight: 600; cursor: pointer; font-size: 14px;
+    }
+    #output { min-height: 40px; padding: 14px; margin-top: 12px; font-size: 15px; color: var(--green); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>HTML / CSS / JavaScript 是什么</h1>
+  <p>—— 前端开发的三个核心，一张图讲清楚</p>
+</header>
+
+<!-- 一、三件套比喻 -->
+<section class="lesson">
+  <h2>一、经典比喻</h2>
+  <div class="three-col">
+    <div class="col-card">
+      <h4>HTML</h4>
+      <p style="font-size:24px;margin:8px 0;">骨架</p>
+      <p>决定页面上有什么：标题、段落、按钮、输入框、图片</p>
+    </div>
+    <div class="col-card">
+      <h4>CSS</h4>
+      <p style="font-size:24px;margin:8px 0;">皮囊</p>
+      <p>决定页面长什么样：颜色、大小、间距、动画、布局</p>
+    </div>
+    <div class="col-card">
+      <h4>JavaScript</h4>
+      <p style="font-size:24px;margin:8px 0;">肌肉</p>
+      <p>决定页面能做什么：点击响应、数据处理、动态更新</p>
+    </div>
+  </div>
+  <div class="callout">三者各司其职。HTML 写内容，CSS 管样式，JS 管行为。改了数据只改 HTML，改了配色只改 CSS——这就是"关注点分离"。</div>
+</section>
+
+<!-- 二、HTML 基础 -->
+<section class="lesson">
+  <h2>二、HTML 标签</h2>
+  <p>HTML 用尖括号标签组织内容。每个标签有开始和结束。</p>
+  <pre><code>&lt;h1&gt;这是一级标题&lt;/h1&gt;          &lt;!-- h1~h6：标题，数字越小越大 --&gt;
+&lt;p&gt;这是一个段落。&lt;/p&gt;
+&lt;button&gt;点我&lt;/button&gt;            &lt;!-- 按钮 --&gt;
+&lt;input type="text" placeholder="在这里输入..."&gt;   &lt;!-- 输入框（自闭合标签） --&gt;
+&lt;a href="https://example.com"&gt;链接文字&lt;/a&gt;    &lt;!-- 超链接 --&gt;
+&lt;img src="图片地址" alt="描述"&gt;                &lt;!-- 图片（自闭合） --&gt;</code></pre>
+  <p style="font-size:13px;color:#64748b;">自闭合标签（input、img、br、hr）不需要写 &lt;/标签名&gt;。</p>
+</section>
+
+<!-- 三、CSS 基础 -->
+<section class="lesson">
+  <h2>三、CSS 样式</h2>
+  <p>CSS 选择器找到元素，然后给属性赋值。</p>
+  <pre><code>/* 选择器 { 属性: 值; } */
+h1 {
+  color: #38bdf8;           /* 文字颜色 */
+  font-size: 32px;          /* 字号 */
+}
+.card {
+  background: #1e293b;      /* 背景色 */
+  border: 1px solid #334155;/* 边框：粗细 样式 颜色 */
+  padding: 20px;            /* 内边距 */
+  margin: 12px;             /* 外边距 */
+  border-radius: 8px;       /* 圆角 */
+}</code></pre>
+</section>
+
+<!-- 四、JS 交互 -->
+<section class="lesson">
+  <h2>四、JavaScript 交互</h2>
+  <p>下面这个输入框是活的——打什么字，下面就显示什么。</p>
+  <div class="demo-section">
+    <div class="input-demo">
+      <input type="text" id="demoInput" placeholder="在这里随便打字...">
+      <button id="clearBtn">清空</button>
+    </div>
+    <div id="output"></div>
+  </div>
+  <pre><code>// 拿到元素
+var input = document.getElementById('demoInput');
+var output = document.getElementById('output');
+
+// 监听输入事件
+input.addEventListener('input', function() {
+  output.textContent = '你输入了：' + input.value;
+});
+
+// 监听点击事件
+document.getElementById('clearBtn').addEventListener('click', function() {
+  input.value = '';
+  output.textContent = '';
+});</code></pre>
+  <p style="font-size:13px;color:#64748b;">三行要领：<strong>拿元素 → 绑事件 → 改内容</strong>。所有前端交互都是这个套路。</p>
+</section>
+
+<!-- 五、本合集怎么用 -->
+<section class="lesson">
+  <h2>五、本合集使用指南</h2>
+  <p>不用按顺序看，跳着看也行。每节课都是独立的 HTML 文件，浏览器直接打开。</p>
+  <table style="width:100%;margin:16px 0;font-size:14px;">
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);">打开方式</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);">Chrome / Edge 浏览器打开 .html 文件</td></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);">看源码</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);">右键 → 查看页面源代码，所有注释都是中文</td></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);">动手改</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);">用记事本打开 .html 文件，改数字、换颜色、看效果</td></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);">遇到问题</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);">F12 打开开发者工具 → Console，红色报错会告诉你是第几行</td></tr>
+  </table>
+</section>
+
+<script>
+(function() {
+  var input = document.getElementById('demoInput');
+  var output = document.getElementById('output');
+  input.addEventListener('input', function() {
+    var val = input.value;
+    output.textContent = val ? '你输入了：' + val : '';
+  });
+  document.getElementById('clearBtn').addEventListener('click', function() {
+    input.value = '';
+    output.textContent = '';
+  });
+})();
+</script>
+
+</body>
+</html>

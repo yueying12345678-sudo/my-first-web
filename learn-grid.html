@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Grid 网格布局</title>
+  <style>
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --border: #334155;
+      --text: #cbd5e1; --text-bright: #f1f5f9; --accent: #38bdf8;
+      --code-bg: #0c1222; --green: #4ade80; --pink: #f472b6; --orange: #fb923c;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7;
+    }
+    header { text-align: center; padding: 80px 24px 48px; }
+    header h1 { font-size: 36px; color: var(--text-bright); margin-bottom: 8px; }
+    header p { color: #64748b; }
+    .lesson {
+      max-width: 800px; margin: 0 auto 64px; padding: 0 24px;
+    }
+    .lesson h2 {
+      font-size: 22px; color: var(--accent);
+      border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 20px;
+    }
+    .lesson h3 { font-size: 16px; color: var(--text-bright); margin: 24px 0 12px; }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 16px 20px; font-size: 13px; overflow-x: auto; margin-bottom: 16px;
+    }
+    code { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+    .demo-section {
+      background: var(--surface); border: 1px solid var(--border); padding: 28px; margin-bottom: 16px;
+    }
+    .grid-container {
+      display: grid; gap: 8px; background: var(--code-bg);
+      border: 1px dashed var(--border); min-height: 120px; padding: 8px;
+      transition: all 0.3s;
+    }
+    .grid-item {
+      background: var(--surface); border: 2px solid var(--accent);
+      color: var(--text-bright); font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      padding: 14px 12px; font-size: 14px; transition: all 0.3s;
+    }
+    .grid-item:nth-child(odd) { border-color: var(--pink); }
+    .grid-item:nth-child(3n) { border-color: var(--green); }
+    .control-bar {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center;
+    }
+    .control-bar label { font-size: 13px; color: #64748b; margin-right: 2px; }
+    .control-bar select {
+      padding: 6px 12px; background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); font-size: 13px; cursor: pointer; font-family: inherit;
+    }
+    .callout {
+      background: rgba(56,189,248,0.1); border-left: 3px solid var(--accent);
+      padding: 12px 16px; margin: 16px 0; font-size: 14px;
+    }
+    .visually-marked .grid-item:nth-child(1) { background: rgba(244,114,182,0.15); }
+    .visually-marked .grid-item:nth-child(4) { background: rgba(74,222,128,0.15); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>CSS Grid 网格布局</h1>
+  <p>二维布局终极方案——页面骨架、仪表盘、相册，Grid 搞定</p>
+</header>
+
+<!-- 一、定义列数 -->
+<section class="lesson">
+  <h2>一、定义列数 grid-template-columns</h2>
+  <p>用 <code>fr</code>（fraction，份数）来分配空间，比百分比直观。</p>
+  <div class="control-bar">
+    <label>列定义：</label>
+    <select id="colSelect">
+      <option value="1fr 1fr">2 列 (1fr 1fr)</option>
+      <option value="1fr 1fr 1fr">3 列 (1fr 1fr 1fr)</option>
+      <option value="200px 1fr 1fr">左侧固定 200px + 2列</option>
+      <option value="1fr 2fr">1:2 比例</option>
+      <option value="repeat(4,1fr)">4 列均匀</option>
+    </select>
+  </div>
+  <div class="grid-container" id="colDemo">
+    <div class="grid-item">A</div><div class="grid-item">B</div><div class="grid-item">C</div><div class="grid-item">D</div>
+  </div>
+  <pre><code>.grid {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr;  /* 侧边栏 + 双栏内容 */
+  /* repeat(3, 1fr) = 1fr 1fr 1fr       — 重复 3 次 */
+}</code></pre>
+</section>
+
+<!-- 二、跨列跨行 -->
+<section class="lesson">
+  <h2>二、跨列 / 跨行</h2>
+  <p>让某个元素占多列或多行，像 Excel 的合并单元格。</p>
+  <div class="grid-container" style="grid-template-columns:1fr 1fr 1fr 1fr;" id="spanDemo">
+    <div class="grid-item" style="grid-column:1/3;">跨 2 列</div>
+    <div class="grid-item">B</div><div class="grid-item">C</div>
+    <div class="grid-item" style="grid-column:2/4;grid-row:2/4;border-color:var(--pink);">跨 2列2行</div>
+    <div class="grid-item">D</div><div class="grid-item" style="grid-column:1/2;">E</div>
+    <div class="grid-item">F</div>
+  </div>
+  <pre><code>.hero-card {
+  grid-column: 1 / 3;       /* 从第 1 条线跨到第 3 条线 = 占 2 列 */
+  grid-row: 1 / 3;          /* 占 2 行 */
+}</code></pre>
+  <p style="font-size:13px;color:#64748b;">Grid 的线编号从 1 开始，N 列就有 N+1 条线。简写：<code>grid-column: span 2;</code> 不写起始线，只写跨几列。</p>
+</section>
+
+<!-- 三、经典布局 -->
+<section class="lesson">
+  <h2>三、经典页面骨架</h2>
+  <p>一套 Grid 写完整个页面布局：header / 侧栏 / 内容 / footer。</p>
+  <div class="grid-container visually-marked" style="grid-template-columns:180px 1fr;grid-template-rows:50px 1fr 40px;min-height:250px;" id="layoutDemo">
+    <div class="grid-item" style="grid-column:1/3;">Header</div>
+    <div class="grid-item">Sidebar</div>
+    <div class="grid-item">Main Content</div>
+    <div class="grid-item" style="grid-column:1/3;">Footer</div>
+  </div>
+  <pre><code>.page {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 60px 1fr 40px;
+  min-height: 100vh;
+}
+.header  { grid-column: 1 / -1; }   /* -1 = 最后一根线 = 占满整行 */
+.footer  { grid-column: 1 / -1; }</code></pre>
+  <div class="callout"><code>grid-column: 1 / -1</code> 里的 -1 代表最后一根线。不管中间加了多少列，永远占满全行。</div>
+</section>
+
+<!-- 四、auto-fit 自适应 -->
+<section class="lesson">
+  <h2>四、自适应列数 auto-fit</h2>
+  <p>不用写媒体查询，自动算每行放几个。改变窗口宽度看看效果。</p>
+  <div class="grid-container" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));" id="autofitDemo">
+    <div class="grid-item">卡片 1</div><div class="grid-item">卡片 2</div><div class="grid-item">卡片 3</div>
+    <div class="grid-item">卡片 4</div><div class="grid-item">卡片 5</div><div class="grid-item">卡片 6</div>
+  </div>
+  <pre><code>.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+/* 翻译：每列最小 150px，放不下了自动换行，多余空间均分 */</code></pre>
+  <p style="font-size:13px;color:#64748b;">这一行替代了 Flexbox 里的 flex-wrap + 手动算宽度。响应式卡片列表的最佳实践。</p>
+</section>
+
+<!-- 五、间距 gap -->
+<section class="lesson">
+  <h2>五、间距 gap</h2>
+  <p>Grid 的 gap 统一控制行列间距，再也不用给每个子元素单独写 margin。</p>
+  <div class="control-bar">
+    <label>间距：</label>
+    <select id="gapSelect">
+      <option value="8px">8px</option>
+      <option value="16px" selected>16px</option>
+      <option value="32px">32px</option>
+      <option value="8px 24px">行8px 列24px</option>
+    </select>
+  </div>
+  <div class="grid-container" style="grid-template-columns:repeat(4,1fr);" id="gapDemo">
+    <div class="grid-item">1</div><div class="grid-item">2</div><div class="grid-item">3</div><div class="grid-item">4</div>
+    <div class="grid-item">5</div><div class="grid-item">6</div><div class="grid-item">7</div><div class="grid-item">8</div>
+  </div>
+  <pre><code>.grid {
+  display: grid;
+  gap: 16px 24px;            /* 行间距 列间距 */
+  /* gap: 16px;              — 行列相同 */
+}</code></pre>
+</section>
+
+<script>
+document.getElementById('colSelect').addEventListener('change', function() {
+  document.getElementById('colDemo').style.gridTemplateColumns = this.value;
+});
+document.getElementById('gapSelect').addEventListener('change', function() {
+  document.getElementById('gapDemo').style.gap = this.value;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>响应式导航栏</title>
+  <style>
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --border: #334155;
+      --text: #cbd5e1; --text-bright: #f1f5f9; --accent: #38bdf8;
+      --code-bg: #0c1222; --green: #4ade80;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7;
+    }
+    header { text-align: center; padding: 80px 24px 48px; }
+    header h1 { font-size: 36px; color: var(--text-bright); margin-bottom: 8px; }
+    header p { color: #64748b; }
+    .lesson {
+      max-width: 800px; margin: 0 auto 64px; padding: 0 24px;
+    }
+    .lesson h2 {
+      font-size: 22px; color: var(--accent);
+      border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 20px;
+    }
+    .lesson h3 { font-size: 16px; color: var(--text-bright); margin: 24px 0 12px; }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border);
+      padding: 16px 20px; font-size: 13px; overflow-x: auto; margin-bottom: 16px;
+    }
+    code { font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+    .demo-section {
+      background: var(--surface); border: 1px solid var(--border); padding: 0;
+      margin-bottom: 16px; overflow: hidden;
+    }
+    .callout {
+      background: rgba(56,189,248,0.1); border-left: 3px solid var(--accent);
+      padding: 12px 16px; margin: 16px 0; font-size: 14px;
+    }
+
+    /* 导航栏演示 */
+    .nav-demo {
+      background: var(--code-bg); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px; height: 56px;
+    }
+    .nav-demo .logo { font-weight: 700; font-size: 18px; color: var(--text-bright); white-space: nowrap; }
+    .nav-demo .links { display: flex; gap: 4px; list-style: none; }
+    .nav-demo .links a {
+      color: var(--text); text-decoration: none; padding: 8px 14px;
+      font-size: 14px; transition: color 0.2s; display: block;
+    }
+    .nav-demo .links a:hover { color: var(--accent); }
+    .nav-demo .hamburger {
+      display: none; background: none; border: 1px solid var(--border);
+      color: var(--text); font-size: 22px; cursor: pointer; width: 40px; height: 36px;
+      align-items: center; justify-content: center; padding: 0;
+    }
+    .nav-demo.mobile .links { display: none; }
+    .nav-demo.mobile .hamburger { display: flex; }
+    .nav-demo.mobile.open .links {
+      display: flex; flex-direction: column; position: absolute;
+      top: 56px; left: 0; right: 0; background: var(--code-bg);
+      border-bottom: 1px solid var(--border); padding: 8px 0; z-index: 10;
+    }
+    .nav-demo.mobile.open .links a { padding: 12px 24px; }
+
+    .nav-hint { padding: 16px 20px; font-size: 13px; color: #64748b; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>响应式导航栏</h1>
+  <p>手机汉堡菜单 / 桌面横排导航 —— 最实用的 UI 组件</p>
+</header>
+
+<!-- 一、基本结构 -->
+<section class="lesson">
+  <h2>一、HTML 结构</h2>
+  <p>Logo + 链接列表 + 汉堡按钮。按钮默认隐藏，手机端显示。</p>
+  <pre><code>&lt;nav class="navbar"&gt;
+  &lt;div class="logo"&gt;MySite&lt;/div&gt;
+
+  &lt;ul class="nav-links"&gt;
+    &lt;li&gt;&lt;a href="#"&gt;首页&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;产品&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;关于&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;联系&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;button class="hamburger"&gt;&amp;#9776;&lt;/button&gt;  &lt;!-- ☰ 三条横线图标 --&gt;
+&lt;/nav&gt;</code></pre>
+</section>
+
+<!-- 二、CSS 布局 -->
+<section class="lesson">
+  <h2>二、CSS：Flexbox + 媒体查询</h2>
+  <p>桌面：flex 横排。手机：菜单隐藏 + 汉堡按钮显示。</p>
+  <pre><code>.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px; height: 56px;
+}
+.nav-links {
+  display: flex;             /* 桌面：横排 */
+  gap: 4px; list-style: none;
+}
+.hamburger { display: none; } /* 桌面：隐藏按钮 */
+
+/* ---- 手机端 ---- */
+@media (max-width: 768px) {
+  .nav-links   { display: none; }          /* 菜单收起 */
+  .hamburger   { display: flex; }          /* 按钮出现 */
+  .nav.open .nav-links {
+    display: flex; flex-direction: column; /* 展开：竖排全宽 */
+    position: absolute; top: 56px; left: 0; right: 0;
+  }
+}</code></pre>
+</section>
+
+<!-- 三、JS 交互 -->
+<section class="lesson">
+  <h2>三、JavaScript：点击切换</h2>
+  <p>点汉堡按钮 → 加/删 <code>open</code> 类 → CSS 自动响应。</p>
+  <pre><code> hamburger.addEventListener('click', function() {
+   nav.classList.toggle('open');
+ });
+
+ // 点菜单项后自动收起
+ links.forEach(function(link) {
+   link.addEventListener('click', function() {
+     nav.classList.remove('open');
+   });
+ });</code></pre>
+</section>
+
+<!-- 四、完整演示 -->
+<section class="lesson">
+  <h2>四、完整演示</h2>
+  <p>下面的导航栏是活的——缩小浏览器窗口到 768px 以下，桌面导航变成汉堡菜单。</p>
+
+  <div class="demo-section" style="position:relative;">
+    <nav class="nav-demo" id="navDemo">
+      <div class="logo">MySite</div>
+      <ul class="links" id="navLinks">
+        <li><a href="javascript:void(0)">首页</a></li>
+        <li><a href="javascript:void(0)">产品</a></li>
+        <li><a href="javascript:void(0)">关于</a></li>
+        <li><a href="javascript:void(0)">联系</a></li>
+      </ul>
+      <button class="hamburger" id="hamburgerBtn">&#9776;</button>
+    </nav>
+    <div class="nav-hint" id="navHint">当前：桌面模式（宽度 &gt; 768px）— 菜单横排显示</div>
+  </div>
+</section>
+
+<!-- 五、常见变体 -->
+<section class="lesson">
+  <h2>五、常见变体</h2>
+  <table style="width:100%;margin:16px 0;font-size:14px;">
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);color:var(--accent);font-weight:700;">固定顶部</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);"><code>position:sticky;top:0;</code> — 滚动时导航始终在顶部</td></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);color:var(--accent);font-weight:700;">下拉子菜单</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);">li 内部再嵌套 ul，hover 时 display:block</td></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);color:var(--accent);font-weight:700;">滚动变色</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);">监听 scroll 事件，滚动超过一定距离后加背景色</td></tr>
+    <tr><td style="padding:8px 12px;border-bottom:1px solid var(--border);color:var(--accent);font-weight:700;">侧滑抽屉</td><td style="padding:8px 12px;border-bottom:1px solid var(--border);">菜单从左侧滑入，用 translateX + transition</td></tr>
+  </table>
+</section>
+
+<script>
+(function() {
+  var nav = document.getElementById('navDemo');
+  var hamburger = document.getElementById('hamburgerBtn');
+  var links = document.querySelectorAll('#navLinks a');
+  var hint = document.getElementById('navHint');
+
+  function checkMode() {
+    var mobile = window.innerWidth <= 768;
+    if (mobile) {
+      nav.classList.add('mobile');
+      hint.textContent = '当前：手机模式（宽度 <= 768px）— 点击右上角 ☰ 打开菜单';
+    } else {
+      nav.classList.remove('mobile', 'open');
+      hint.textContent = '当前：桌面模式（宽度 > 768px）— 菜单横排显示';
+    }
+  }
+
+  hamburger.addEventListener('click', function() {
+    nav.classList.toggle('open');
+  });
+
+  links.forEach(function(link) {
+    link.addEventListener('click', function() {
+      nav.classList.remove('open');
+    });
+  });
+
+  window.addEventListener('resize', checkMode);
+  checkMode();
+})();
+</script>
+
+</body>
+</html>

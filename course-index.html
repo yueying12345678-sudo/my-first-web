@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>前端练手项目合集</title>
+  <style>
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --border: #334155;
+      --text: #cbd5e1; --text-bright: #f1f5f9; --accent: #38bdf8;
+      --code-bg: #0c1222; --green: #4ade80;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7;
+    }
+
+    .hero {
+      text-align: center; padding: 100px 24px 60px;
+    }
+    .hero .tag {
+      display: inline-block; background: rgba(56,189,248,0.15);
+      color: var(--accent); padding: 4px 16px; font-size: 13px;
+      letter-spacing: 4px; border: 1px solid rgba(56,189,248,0.25);
+    }
+    .hero h1 {
+      font-size: 42px; color: var(--text-bright); margin-top: 20px;
+    }
+    .hero .sub {
+      font-size: 17px; color: #64748b; margin-top: 10px;
+    }
+    .hero .count {
+      margin-top: 28px; display: flex; gap: 24px; justify-content: center;
+    }
+    .hero .count .stat {
+      text-align: center;
+    }
+    .hero .count .stat .num {
+      font-size: 36px; font-weight: 700; color: var(--accent);
+    }
+    .hero .count .stat .lbl {
+      font-size: 12px; color: #64748b; margin-top: 2px;
+    }
+
+    .lesson-list {
+      max-width: 820px; margin: 0 auto 80px; padding: 0 24px;
+    }
+    .lesson-list h2 {
+      font-size: 22px; color: var(--text-bright); margin-bottom: 24px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .lesson-item {
+      display: flex; align-items: center; gap: 20px; padding: 18px 20px;
+      border: 1px solid var(--border); margin-bottom: 8px;
+      text-decoration: none; color: var(--text);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .lesson-item:hover {
+      border-color: var(--accent); background: rgba(56,189,248,0.05);
+    }
+    .lesson-item .idx {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700; color: var(--accent); flex-shrink: 0;
+    }
+    .lesson-item .info { flex: 1; }
+    .lesson-item .info h4 {
+      font-size: 16px; color: var(--text-bright); margin-bottom: 2px;
+    }
+    .lesson-item .info p {
+      font-size: 13px; color: #64748b;
+    }
+    .lesson-item .arrow {
+      font-size: 18px; color: #334155; flex-shrink: 0;
+    }
+
+    .footer-note {
+      text-align: center; padding: 40px 24px; color: #475569;
+      font-size: 13px; border-top: 1px solid var(--border);
+      max-width: 820px; margin: 0 auto;
+    }
+    .footer-note strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="tag">FRONTEND PLAYGROUND</div>
+  <h1>前端练手项目合集</h1>
+  <div class="sub">10 个可直接运行的 HTML 组件源码，浏览器打开即学</div>
+  <div class="count">
+    <div class="stat"><div class="num">10</div><div class="lbl">独立课时</div></div>
+    <div class="stat"><div class="num">0</div><div class="lbl">前置依赖</div></div>
+    <div class="stat"><div class="num">ALL</div><div class="lbl">中文注释</div></div>
+  </div>
+</div>
+
+<div class="lesson-list">
+  <h2>课时目录</h2>
+
+  <a href="learn-intro.html" class="lesson-item">
+    <div class="idx">01</div>
+    <div class="info"><h4>HTML / CSS / JavaScript 是什么</h4><p>前端开发三个核心概念，一个比喻讲清楚</p></div>
+    <div class="arrow">&rarr;</div>
+  </a>
+
+  <a href="learn-flexbox.html" class="lesson-item">
+    <div class="idx">02</div>
+    <div class="info"><h4>Flexbox 弹性布局</h4><p>一维布局神器，可交互控制器实时切换方向与对齐</p></div>
+    <div class="arrow">&rarr;</div>
+  </a>
+
+  <a href="learn-grid.html" class="lesson-item">
+    <div class="idx">03</div>
+    <div class="info"><h4>CSS Grid 网格布局</h4><p>二维布局终极方案，从页面骨架到自适应卡片</p></div>
+    <div class="arrow">&rarr;</div>
+  </a>
+
+  <a href="learn-animation.html" class="lesson-item">
+    <div class="idx">04</div>
+    <div class="info"><h4>CSS 动画</h4><p>过渡、关键帧、缓动函数——让元素动起来</p></div>
+    <div class="arrow">&rarr;</div>
+  </a>
+
+  <a href="learn-3d.html" class="lesson-item">
+    <div class="idx">05</div>
+    <div class="info"><h4>CSS 3D 透视与变换</h4><p>卡片翻转、3D 按钮、旋转立方体——全在 CSS 里</p></div>
+    <div class="arrow">&rarr;</div>
+  </a>
+
+  <a href="learn-nav.html" class="lesson-item">
+    <div class="idx">06</div>
+    <div class="info"><h4>响应式导航栏</h4><p>手机汉堡菜单 / 桌面横排导航——最实用的 UI 组件</p></div>
+    <div class="arrow">&rarr;</div>
+  </a>
+
+  <a href="learn-scroll.html" class="lesson-item">
+    <div class="idx">07</div>
+    <div class="info"><h4>滚动驱动动画</h4><p>Intersection Observer 实现淡入、进度条、回到顶部</p></div>
+    <div class="arrow">&rarr;</div>
+  </a>
+
+  <a href="learn-form.html" class="lesson-item">
+    <div class="idx">08</div>
+    <div class="info"><h4>表单对接后端</h4><p>Web3Forms/Formspree 接入，AJAX 无刷新提交</p></div>
+    <div class="arrow">&rarr;</div>
+  </a>
+
+  <a href="learn-filter.html" class="lesson-item">
+    <div class="idx">09</div>
+    <div class="info"><h4>数据过滤 / 搜索 / 排序</h4><p>产品列表实时过滤——一套逻辑吃遍所有场景</p></div>
+    <div class="arrow">&rarr;</div>
+  </a>
+
+  <a href="learn-tabs.html" class="lesson-item">
+    <div class="idx">10</div>
+    <div class="info"><h4>Tab / 折叠 / 轮播</h4><p>内容切换三件套，从手风琴到自动播放</p></div>
+    <div class="arrow">&rarr;</div>
+  </a>
+</div>
+
+<div class="footer-note">
+  浏览器直接打开 <strong>.html</strong> 文件即可使用 &nbsp;|&nbsp;
+  右键查看源代码，全部中文注释 &nbsp;|&nbsp;
+  记事本就能改，改完刷新看效果
+</div>
+
+</body>
+</html>
