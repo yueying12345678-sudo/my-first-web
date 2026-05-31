@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1024">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;background:#eef1f5;color:#1e293b}
+.slide{width:1024px;height:576px;margin:20px auto;position:relative;overflow:hidden;background:#fff}
+.page{position:absolute;bottom:28px;right:56px;font-size:11px;color:#d0d0d0}
+
+/* S1: Hero with diagonal */
+.s1{background:linear-gradient(135deg,#fff 55%,#6366f1 55.1%)}
+.s1 .content{position:absolute;left:90px;top:50%;transform:translateY(-50%)}
+.s1 .badge{display:inline-block;background:#6366f1;color:#fff;padding:6px 20px;font-size:12px;letter-spacing:4px;margin-bottom:24px}
+.s1 h1{font-size:56px;font-weight:700;color:#0f172a;line-height:1.15}
+.s1 .sub{font-size:17px;color:#94a3b8;margin-top:12px}
+
+/* S2: Icon feature grid */
+.s2 .content{position:absolute;left:80px;top:60px;right:80px}
+.s2 .label{font-size:12px;letter-spacing:6px;color:#6366f1;margin-bottom:16px}
+.s2 h3{font-size:30px;font-weight:600;margin-bottom:32px}
+.s2 .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.s2 .feat{display:flex;gap:20px;padding:20px;border:1px solid #f0f0f4;border-radius:6px}
+.s2 .feat .icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.s2 .feat .info h4{font-size:16px;margin-bottom:4px}
+.s2 .feat .info p{font-size:13px;color:#94a3b8;line-height:1.6}
+.i1{background:#eef2ff;color:#6366f1}
+.i2{background:#fef3c7;color:#d97706}
+.i3{background:#d1fae5;color:#059669}
+.i4{background:#fce7f3;color:#db2777}
+
+/* S3: Before/After comparison */
+.s3 .content{position:absolute;left:80px;top:60px;right:80px}
+.s3 .label{font-size:12px;letter-spacing:6px;color:#6366f1;margin-bottom:16px}
+.s3 h3{font-size:30px;font-weight:600;margin-bottom:28px}
+.s3 .compare{display:flex;gap:32px}
+.s3 .col{flex:1;padding:28px;border-radius:8px}
+.s3 .old{background:#f8fafc;border:1px solid #e2e8f0}
+.s3 .new{background:#eef2ff;border:2px solid #6366f1}
+.s3 .col .head{font-size:13px;letter-spacing:4px;margin-bottom:20px}
+.s3 .col .list{font-size:14px;color:#64748b;line-height:2.4}
+.s3 .old .head{color:#94a3b8}
+.s3 .new .head{color:#6366f1}
+
+/* S4: Steps process */
+.s4 .content{position:absolute;left:80px;top:60px;right:80px}
+.s4 .label{font-size:12px;letter-spacing:6px;color:#6366f1;margin-bottom:16px}
+.s4 h3{font-size:30px;font-weight:600;margin-bottom:36px}
+.s4 .steps{display:flex;gap:16px}
+.s4 .step{flex:1;text-align:center;position:relative}
+.s4 .step::after{content:'';position:absolute;top:22px;left:60%;width:80%;height:1px;background:#e2e8f0}
+.s4 .step:last-child::after{display:none}
+.s4 .step .circle{width:44px;height:44px;border-radius:50%;background:#6366f1;color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:18px;font-weight:600}
+.s4 .step h4{font-size:15px;margin-bottom:6px}
+.s4 .step p{font-size:12px;color:#94a3b8}
+
+/* S5: Pricing */
+.s5 .content{position:absolute;left:80px;top:60px;right:80px}
+.s5 .label{font-size:12px;letter-spacing:6px;color:#6366f1;margin-bottom:16px}
+.s5 h3{font-size:30px;font-weight:600;margin-bottom:28px}
+.s5 .pricing{display:flex;gap:20px;align-items:stretch}
+.s5 .plan{flex:1;padding:32px 24px;border:1px solid #e2e8f0;border-radius:8px;text-align:center}
+.s5 .plan.recommend{background:#eef2ff;border-color:#6366f1;position:relative}
+.s5 .plan.recommend::before{content:'推荐';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#6366f1;color:#fff;padding:4px 16px;border-radius:12px;font-size:11px;letter-spacing:2px}
+.s5 .plan .pname{font-size:16px;font-weight:600;margin-bottom:12px}
+.s5 .plan .price-num{font-size:40px;font-weight:700;color:#6366f1}
+.s5 .plan .price-num .sym{font-size:20px}
+.s5 .plan .feats{font-size:13px;color:#94a3b8;line-height:2.2;margin-top:16px}
+
+/* S6 */
+.s6{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.s6 .center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.s6 h2{font-size:48px;font-weight:500;letter-spacing:6px}
+.s6 .line{width:50px;height:1px;background:rgba(255,255,255,.4);margin:24px auto}
+.s6 .txt{font-size:14px;opacity:.55;letter-spacing:4px}
+</style>
+</head>
+<body>
+
+<div class="slide s1">
+  <div class="content">
+    <div class="badge">NEW LAUNCH</div>
+    <h1>Pro X 系列<br>新品发布</h1>
+    <div class="sub">旗舰性能 · 轻薄设计 · 超长续航</div>
+  </div>
+  <div class="page">01 / 06</div>
+</div>
+
+<div class="slide s2">
+  <div class="content">
+    <div class="label">FEATURES</div>
+    <h3>四大核心升级</h3>
+    <div class="grid">
+      <div class="feat"><div class="icon i1">&#9650;</div><div class="info"><h4>性能飞跃</h4><p>A17 Pro 芯片，CPU 提升 40%，GPU 提升 55%</p></div></div>
+      <div class="feat"><div class="icon i2">&#9733;</div><div class="info"><h4>屏幕天花板</h4><p>6.7" OLED，120Hz 自适应刷新率，峰值亮度 2500nit</p></div></div>
+      <div class="feat"><div class="icon i3">&#9830;</div><div class="info"><h4>续航王者</h4><p>5000mAh 电池，12 小时重度使用，30 分钟快充 50%</p></div></div>
+      <div class="feat"><div class="icon i4">&#9829;</div><div class="info"><h4>影像旗舰</h4><p>4800 万三摄，10 倍光学变焦，夜拍能力翻倍</p></div></div>
+    </div>
+  </div>
+  <div class="page">02 / 06</div>
+</div>
+
+<div class="slide s3">
+  <div class="content">
+    <div class="label">COMPARISON</div>
+    <h3>相比上一代提升</h3>
+    <div class="compare">
+      <div class="col old">
+        <div class="head">上一代 Pro</div>
+        <div class="list">A16 处理器<br>6.1" 60Hz 屏幕<br>8GB 内存<br>4000mAh 电池<br>1200 万双摄<br>4 小时续航</div>
+      </div>
+      <div class="col new">
+        <div class="head">全新 Pro X</div>
+        <div class="list">A17 Pro 处理器<br>6.7" 120Hz OLED<br>12GB 内存<br>5000mAh 电池<br>4800 万三摄<br>12 小时续航</div>
+      </div>
+    </div>
+  </div>
+  <div class="page">03 / 06</div>
+</div>
+
+<div class="slide s4">
+  <div class="content">
+    <div class="label">PROCESS</div>
+    <h3>购买流程</h3>
+    <div class="steps">
+      <div class="step"><div class="circle">1</div><h4>预约试机</h4><p>官网/门店预约</p></div>
+      <div class="step"><div class="circle">2</div><h4>到店体验</h4><p>专属顾问讲解</p></div>
+      <div class="step"><div class="circle">3</div><h4>下单锁定</h4><p>定金 ¥500 抵 ¥1000</p></div>
+      <div class="step"><div class="circle">4</div><h4>极速发货</h4><p>48 小时内顺丰包邮</p></div>
+    </div>
+  </div>
+  <div class="page">04 / 06</div>
+</div>
+
+<div class="slide s5">
+  <div class="content">
+    <div class="label">PRICING</div>
+    <h3>版本与定价</h3>
+    <div class="pricing">
+      <div class="plan"><div class="pname">标准版</div><div class="price-num"><span class="sym">¥</span>6,999</div><div class="feats">12GB + 256GB<br>星空黑<br>标准充电器</div></div>
+      <div class="plan recommend"><div class="pname">高配版</div><div class="price-num"><span class="sym">¥</span>8,499</div><div class="feats">12GB + 512GB<br>三色可选<br>65W 快充套装</div></div>
+      <div class="plan"><div class="pname">尊享版</div><div class="price-num"><span class="sym">¥</span>9,999</div><div class="feats">16GB + 1TB<br>限定配色<br>全套配件礼盒</div></div>
+    </div>
+  </div>
+  <div class="page">05 / 06</div>
+</div>
+
+<div class="slide s6">
+  <div class="center"><h2>即将上市</h2><div class="line"></div><div class="txt">COMING SOON</div></div>
+  <div class="page">06 / 06</div>
+</div>
+
+</body>
+</html>

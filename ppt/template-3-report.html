@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1024">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;background:#eef1f5;color:#1e293b}
+.slide{width:1024px;height:576px;margin:20px auto;position:relative;overflow:hidden;background:#fff}
+.page{position:absolute;bottom:28px;right:56px;font-size:11px;color:#ccc}
+
+/* S1: clean circle hero */
+.s1{background:#fff}
+.s1 .hero-circle{position:absolute;right:-40px;top:-40px;width:420px;height:420px;border:40px solid rgba(59,130,246,.06);border-radius:50%}
+.s1 .hero-circle2{position:absolute;right:60px;top:60px;width:240px;height:240px;background:rgba(59,130,246,.04);border-radius:50%}
+.s1 .content{position:absolute;left:100px;top:50%;transform:translateY(-50%)}
+.s1 .tag{font-size:13px;letter-spacing:10px;color:#3b82b6;margin-bottom:20px;font-weight:500}
+.s1 h1{font-size:56px;font-weight:700;color:#0f2b47;line-height:1.12}
+.s1 .sub{font-size:17px;color:#94a3b8;margin-top:12px}
+
+/* S2: 2x2 rich KPI cards */
+.s2{background:#fff}
+.s2 .content{position:absolute;left:90px;top:50px;right:90px}
+.s2 .label{font-size:12px;letter-spacing:10px;color:#3b82b6;margin-bottom:22px}
+.s2 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.s2 .card{display:flex;gap:20px;padding:24px;border-radius:8px;align-items:center}
+.s2 .card .icon-area{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.s2 .card .data{}
+.s2 .card .data .d-val{font-size:30px;font-weight:700;color:#0f2b47;line-height:1}
+.s2 .card .data .d-unit{font-size:13px;color:#94a3b8;font-weight:400}
+.s2 .card .data .d-label{font-size:12px;color:#94a3b8;margin-top:4px}
+.s2 .card .data .mini-bar{height:3px;background:#f1f5f9;margin-top:10px;border-radius:2px;width:120px}
+.s2 .card .data .mini-bar .fill{height:100%;border-radius:2px;background:#3b82b6}
+.k1{background:#eff6ff;border:1px solid #dbeafe}.k1 .icon-area{background:#dbeafe;color:#3b82b6}
+.k2{background:#f0fdf4;border:1px solid #dcfce7}.k2 .icon-area{background:#dcfce7;color:#3d8b40}
+.k3{background:#fefce8;border:1px solid #fef08a}.k3 .icon-area{background:#fef08a;color:#a08820}
+.k4{background:#fdf2f8;border:1px solid #fce7f3}.k4 .icon-area{background:#fce7f3;color:#be185d}
+
+/* S3: chart + side cards */
+.s3{background:#fff}
+.s3 .content{position:absolute;left:90px;top:44px;right:90px}
+.s3 .label{font-size:12px;letter-spacing:10px;color:#3b82b6;margin-bottom:12px}
+.s3 h3{font-size:26px;font-weight:600;margin-bottom:24px}
+.s3 .dual{display:flex;gap:36px}
+.s3 .dual-left{flex:1}
+.s3 .dual-left .bars{display:flex;align-items:flex-end;gap:22px;height:180px}
+.s3 .dual-left .bar{flex:1;text-align:center}
+.s3 .dual-left .bar .top-val{font-size:12px;font-weight:600;color:#3b82b6;margin-bottom:6px}
+.s3 .dual-left .bar .pill{width:100%;border-radius:4px 4px 0 0}
+.s3 .dual-left .bar .bot{font-size:11px;color:#94a3b8;margin-top:8px}
+.pa{height:50px;background:linear-gradient(0deg,#dbeafe,#3b82b6)}
+.pb{height:95px;background:linear-gradient(0deg,#dbeafe,#3b82b6)}
+.pc{height:65px;background:linear-gradient(0deg,#dbeafe,#3b82b6)}
+.pd{height:165px;background:linear-gradient(0deg,#bfdbfe,#2563a0)}
+.pe{height:125px;background:linear-gradient(0deg,#dbeafe,#3b82b6)}
+.s3 .dual-right{width:210px;display:flex;flex-direction:column;gap:12px;justify-content:center}
+.s3 .dual-right .card{padding:18px;border-radius:6px;border:1px solid #f1f5f9}
+.s3 .dual-right .card .big{font-size:24px;font-weight:600;color:#3b82b6}
+.s3 .dual-right .card .note{font-size:11px;color:#94a3b8;margin-top:2px}
+
+/* S4: clean table */
+.s4{background:#fff}
+.s4 .content{position:absolute;left:90px;top:46px;right:90px}
+.s4 .label{font-size:12px;letter-spacing:10px;color:#3b82b6;margin-bottom:14px}
+.s4 h3{font-size:26px;font-weight:600;margin-bottom:28px}
+.s4 table{width:100%;border-collapse:collapse}
+.s4 thead th{padding:14px 0;text-align:left;font-size:11px;color:#94a3b8;letter-spacing:3px;font-weight:400;border-bottom:2px solid #e2e8f0}
+.s4 tbody td{padding:18px 0;font-size:15px;color:#64748b;border-bottom:1px solid #f8fafc}
+.s4 tbody td:first-child{font-weight:600;color:#0f2b47}
+.s4 .chip{display:inline-block;padding:3px 12px;border-radius:12px;font-size:11px;font-weight:600}
+.s4 .c-green{background:#e8f5e8;color:#3d8b40}
+.s4 .c-amber{background:#fefce8;color:#a08820}
+
+/* S5: insight cards */
+.s5{background:#fff}
+.s5 .content{position:absolute;left:90px;top:46px;right:90px}
+.s5 .label{font-size:12px;letter-spacing:10px;color:#3b82b6;margin-bottom:14px}
+.s5 h3{font-size:26px;font-weight:600;margin-bottom:28px}
+.s5 .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.s5 .card{display:flex;gap:16px;padding:22px;border-radius:6px}
+.s5 .card .dot{width:10px;height:10px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.s5 .card .text h4{font-size:15px;font-weight:600;margin-bottom:4px;color:#334155}
+.s5 .card .text p{font-size:13px;color:#94a3b8;line-height:1.6}
+.c1{background:#eff6ff}.c1 .dot{background:#3b82b6}
+.c2{background:#fefce8}.c2 .dot{background:#d4a017}
+.c3{background:#f0fdf4}.c3 .dot{background:#3d8b40}
+.c4{background:#fdf2f8}.c4 .dot{background:#be185d}
+
+/* S6 */
+.s6{background:linear-gradient(135deg,#eff6ff,#dbeafe)}
+.s6 .center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.s6 .sm{font-size:14px;letter-spacing:12px;color:#3b82b6;margin-bottom:28px}
+.s6 h2{font-size:50px;font-weight:400;letter-spacing:8px;color:#0f2b47}
+.s6 .line{width:60px;height:2px;background:#3b82b6;margin:30px auto}
+.s6 .ct{font-size:15px;color:#94a3b8;letter-spacing:3px}
+</style>
+</head>
+<body>
+
+<div class="slide s1">
+  <div class="hero-circle"></div><div class="hero-circle2"></div>
+  <div class="content">
+    <div class="tag">DATA REPORT</div>
+    <h1>2026<br>年度数据报告</h1>
+    <div class="sub">ANNUAL DATA REPORT</div>
+  </div>
+  <div class="page">01 / 06</div>
+</div>
+
+<div class="slide s2">
+  <div class="content">
+    <div class="label">KEY METRICS</div>
+    <div class="grid">
+      <div class="card k1">
+        <div class="icon-area">&#9650;</div>
+        <div class="data">
+          <div class="d-val">2.8<span class="d-unit"> 亿</span></div>
+          <div class="d-label">全年营收 · 同比增长 +38%</div>
+          <div class="mini-bar"><div class="fill" style="width:92%"></div></div>
+        </div>
+      </div>
+      <div class="card k2">
+        <div class="icon-area">&#9632;</div>
+        <div class="data">
+          <div class="d-val">48<span class="d-unit"> 个</span></div>
+          <div class="d-label">交付项目 · 100% 按时完成</div>
+          <div class="mini-bar"><div class="fill" style="width:100%"></div></div>
+        </div>
+      </div>
+      <div class="card k3">
+        <div class="icon-area">&#9733;</div>
+        <div class="data">
+          <div class="d-val">99.7<span class="d-unit"> %</span></div>
+          <div class="d-label">客户满意度 · 12 次书面表扬</div>
+          <div class="mini-bar"><div class="fill" style="width:97%"></div></div>
+        </div>
+      </div>
+      <div class="card k4">
+        <div class="icon-area">&#9830;</div>
+        <div class="data">
+          <div class="d-val">32<span class="d-unit"> %</span></div>
+          <div class="d-label">效率提升 · 自动化覆盖 60+ 流程</div>
+          <div class="mini-bar"><div class="fill" style="width:65%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page">02 / 06</div>
+</div>
+
+<div class="slide s3">
+  <div class="content">
+    <div class="label">TREND</div>
+    <h3>季度营收趋势</h3>
+    <div class="dual">
+      <div class="dual-left">
+        <div class="bars">
+          <div class="bar"><div class="top-val">5.2</div><div class="pill pa"></div><div class="bot">Q1</div></div>
+          <div class="bar"><div class="top-val">7.8</div><div class="pill pb"></div><div class="bot">Q2</div></div>
+          <div class="bar"><div class="top-val">6.4</div><div class="pill pc"></div><div class="bot">Q3</div></div>
+          <div class="bar"><div class="top-val">9.1</div><div class="pill pd"></div><div class="bot">Q4</div></div>
+          <div class="bar"><div class="top-val">11.2</div><div class="pill pe"></div><div class="bot">目标</div></div>
+        </div>
+      </div>
+      <div class="dual-right">
+        <div class="card"><div class="big">+38%</div><div class="note">同比增长率</div></div>
+        <div class="card"><div class="big">Q4</div><div class="note">业绩最高季度</div></div>
+        <div class="card"><div class="big">4 / 4</div><div class="note">季度均超目标</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="page">03 / 06</div>
+</div>
+
+<div class="slide s4">
+  <div class="content">
+    <div class="label">DETAIL</div>
+    <h3>业务线详细对比</h3>
+    <table>
+      <thead><tr><th>业务线</th><th>营收（万元）</th><th>同比增长</th><th>目标完成</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td>产品 A</td><td>8,200</td><td>+32%</td><td>128%</td><td><span class="chip c-green">超额完成</span></td></tr>
+        <tr><td>产品 B</td><td>5,600</td><td>+18%</td><td>105%</td><td><span class="chip c-green">达标</span></td></tr>
+        <tr><td>产品 C</td><td>3,900</td><td>+45%</td><td>156%</td><td><span class="chip c-green">超额完成</span></td></tr>
+        <tr><td>咨询业务</td><td>2,100</td><td>+28%</td><td>112%</td><td><span class="chip c-amber">达标</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page">04 / 06</div>
+</div>
+
+<div class="slide s5">
+  <div class="content">
+    <div class="label">INSIGHTS</div>
+    <h3>关键洞察与行动建议</h3>
+    <div class="cards">
+      <div class="card c1"><div class="dot"></div><div class="text"><h4>增长引擎</h4><p>产品 C 增速 45% 领跑全业务线，建议加大资源投入，目标下年翻倍。</p></div></div>
+      <div class="card c2"><div class="dot"></div><div class="text"><h4>风险预警</h4><p>产品 B 增速放缓至 18%，需排查市场饱和或竞品挤压等潜在风险。</p></div></div>
+      <div class="card c3"><div class="dot"></div><div class="text"><h4>战略机遇</h4><p>海外市场需求信号明确，建议 Q1 启动东南亚试点布局。</p></div></div>
+      <div class="card c4"><div class="dot"></div><div class="text"><h4>团队建设</h4><p>核心技术岗缺口 6 人，建议 Q1 同步启动社招与校招储备。</p></div></div>
+    </div>
+  </div>
+  <div class="page">05 / 06</div>
+</div>
+
+<div class="slide s6">
+  <div class="center">
+    <div class="sm">THANK YOU</div>
+    <h2>谢谢观看</h2>
+    <div class="line"></div>
+    <div class="ct">数据年报 · 2026</div>
+  </div>
+  <div class="page">06 / 06</div>
+</div>
+
+</body>
+</html>

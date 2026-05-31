@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1024">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;background:#e9e5de;color:#2d2a24}
+.slide{width:1024px;height:576px;margin:20px auto;position:relative;overflow:hidden;background:#fdfcf8}
+.page{position:absolute;bottom:28px;right:56px;font-size:11px;color:#c8c3b8}
+.accent{color:#c7693f}
+
+/* S1: layered geometric cover */
+.s1{background:#fdfcf8}
+.s1 .frame{position:absolute;right:80px;top:50%;transform:translateY(-50%);width:260px;height:340px;border:2px solid #c7693f}
+.s1 .frame2{position:absolute;right:55px;top:50%;transform:translateY(-50%) translateY(-20px);width:260px;height:340px;border:1px solid rgba(199,105,63,.15)}
+.s1 .content{position:absolute;left:100px;top:50%;transform:translateY(-50%)}
+.s1 .dept{font-size:14px;letter-spacing:12px;color:#c7693f;margin-bottom:24px;font-weight:500}
+.s1 h1{font-size:58px;font-weight:700;color:#2d2a24;line-height:1.1}
+.s1 .tagline{font-size:15px;color:#b0a898;margin-top:14px;letter-spacing:2px}
+
+/* S2: numbered list with big digits */
+.s2{background:#fdfcf8}
+.s2 .content{position:absolute;left:100px;top:70px;right:100px}
+.s2 .label{font-size:12px;letter-spacing:10px;color:#c7693f;margin-bottom:28px}
+.s2 .items{display:flex;flex-direction:column;gap:0}
+.s2 .item{display:flex;align-items:center;gap:28px;padding:18px 0;border-bottom:1px solid #f0ebe0}
+.s2 .item .idx{font-size:40px;font-weight:200;color:#c7693f;width:60px;text-align:center;flex-shrink:0}
+.s2 .item .info{}
+.s2 .item .info h4{font-size:19px;color:#2d2a24;margin-bottom:4px}
+.s2 .item .info p{font-size:13px;color:#b0a898}
+
+/* S3: quote + three stats */
+.s3{background:#fdfcf8}
+.s3 .content{position:absolute;left:100px;top:70px;right:100px}
+.s3 .label{font-size:12px;letter-spacing:10px;color:#c7693f;margin-bottom:20px}
+.s3 .big-quote{font-size:24px;color:#2d2a24;line-height:1.7;max-width:600px;margin-bottom:36px}
+.s3 .stats{display:flex;gap:60px}
+.s3 .stat .s-num{font-size:48px;font-weight:300;color:#c7693f;line-height:1}
+.s3 .stat .s-unit{font-size:15px;color:#b0a898}
+.s3 .stat .s-label{font-size:13px;color:#c8c3b8;margin-top:6px}
+
+/* S4: left text + right giant number */
+.s4{background:#fdfcf8}
+.s4 .left{position:absolute;left:100px;top:50%;transform:translateY(-50%);max-width:420px}
+.s4 .left .label{font-size:12px;letter-spacing:10px;color:#c7693f;margin-bottom:20px}
+.s4 .left h3{font-size:34px;font-weight:600;margin-bottom:20px;line-height:1.3}
+.s4 .left p{font-size:16px;color:#9e9688;line-height:2}
+.s4 .right{position:absolute;right:100px;top:50%;transform:translateY(-50%)}
+.s4 .right .giant{font-size:150px;font-weight:100;color:#c7693f;line-height:1;opacity:.9}
+.s4 .right .footnote{font-size:15px;color:#b0a898;text-align:right}
+
+/* S5: performance bars */
+.s5{background:#fdfcf8}
+.s5 .content{position:absolute;left:100px;top:70px;right:100px}
+.s5 .label{font-size:12px;letter-spacing:10px;color:#c7693f;margin-bottom:28px}
+.s5 .bars{display:flex;flex-direction:column;gap:18px}
+.s5 .b-row{display:flex;align-items:center;gap:20px}
+.s5 .b-row .b-name{width:100px;text-align:right;font-size:14px;color:#8d8070;font-weight:500}
+.s5 .b-row .b-track{flex:1;height:36px;background:#f4efe6;border-radius:6px;overflow:hidden}
+.s5 .b-row .b-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#d4845a,#c7693f);display:flex;align-items:center;padding-left:14px;font-size:13px;color:#fff;font-weight:600}
+.s5 .b-row .b-pct{width:55px;font-size:15px;font-weight:700;color:#c7693f}
+
+/* S6 */
+.s6{background:#fdf8f4}
+.s6 .center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.s6 .sm{font-size:14px;letter-spacing:14px;color:#c7693f;margin-bottom:28px}
+.s6 h2{font-size:52px;font-weight:400;letter-spacing:8px;color:#2d2a24}
+.s6 .line{width:50px;height:2px;background:#c7693f;margin:30px auto}
+.s6 .ct{font-size:15px;color:#c8c3b8;letter-spacing:4px}
+</style>
+</head>
+<body>
+
+<div class="slide s1">
+  <div class="frame"></div><div class="frame2"></div>
+  <div class="content">
+    <div class="dept">市场部</div>
+    <h1>年度工作<br>总结汇报</h1>
+    <div class="tagline">ANNUAL REPORT 2026</div>
+  </div>
+  <div class="page">01 / 06</div>
+</div>
+
+<div class="slide s2">
+  <div class="content">
+    <div class="label">CONTENTS</div>
+    <div class="items">
+      <div class="item"><div class="idx">01</div><div class="info"><h4>业绩总览</h4><p>全年核心指标完成情况及关键成果展示</p></div></div>
+      <div class="item"><div class="idx">02</div><div class="info"><h4>项目复盘</h4><p>重点项目里程碑回顾与经验沉淀</p></div></div>
+      <div class="item"><div class="idx">03</div><div class="info"><h4>数据分析</h4><p>多维度数据拆解与增长趋势洞察</p></div></div>
+      <div class="item"><div class="idx">04</div><div class="info"><h4>未来规划</h4><p>下一年度目标设定与执行路径</p></div></div>
+    </div>
+  </div>
+  <div class="page">02 / 06</div>
+</div>
+
+<div class="slide s3">
+  <div class="content">
+    <div class="label">OVERVIEW</div>
+    <div class="big-quote">"本年度核心指标全面超额完成，团队在架构调整中保持高效运转，为下个增长周期奠定了坚实基础。"</div>
+    <div class="stats">
+      <div class="stat"><div class="s-num">2.8<span class="s-unit"> 亿</span></div><div class="s-label">全年营收</div></div>
+      <div class="stat"><div class="s-num">48<span class="s-unit"> 个</span></div><div class="s-label">交付项目</div></div>
+      <div class="stat"><div class="s-num">156<span class="s-unit"> %</span></div><div class="s-label">目标完成率</div></div>
+    </div>
+  </div>
+  <div class="page">03 / 06</div>
+</div>
+
+<div class="slide s4">
+  <div class="left">
+    <div class="label">HIGHLIGHT</div>
+    <h3>核心项目<br>成果展示</h3>
+    <p>旗舰产品从概念到落地完整交付，团队攻克三项关键技术难点，获客户书面表扬 12 次，为下一年度奠定坚实基础。</p>
+  </div>
+  <div class="right">
+    <div class="giant">156%</div>
+    <div class="footnote">年度目标完成率</div>
+  </div>
+  <div class="page">04 / 06</div>
+</div>
+
+<div class="slide s5">
+  <div class="content">
+    <div class="label">PERFORMANCE</div>
+    <div class="bars">
+      <div class="b-row"><div class="b-name">产品 A</div><div class="b-track"><div class="b-fill" style="width:90%">8,200 万</div></div><div class="b-pct">128%</div></div>
+      <div class="b-row"><div class="b-name">产品 B</div><div class="b-track"><div class="b-fill" style="width:70%">5,600 万</div></div><div class="b-pct">105%</div></div>
+      <div class="b-row"><div class="b-name">产品 C</div><div class="b-track"><div class="b-fill" style="width:95%">3,900 万</div></div><div class="b-pct">156%</div></div>
+      <div class="b-row"><div class="b-name">咨询业务</div><div class="b-track"><div class="b-fill" style="width:60%">2,100 万</div></div><div class="b-pct">112%</div></div>
+    </div>
+  </div>
+  <div class="page">05 / 06</div>
+</div>
+
+<div class="slide s6">
+  <div class="center">
+    <div class="sm">THANK YOU</div>
+    <h2>谢谢观看</h2>
+    <div class="line"></div>
+    <div class="ct">市场部 · 2026 年度汇报</div>
+  </div>
+  <div class="page">06 / 06</div>
+</div>
+
+</body>
+</html>
