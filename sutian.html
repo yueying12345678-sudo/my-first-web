@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>簌甜 — 法式甜品工坊</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fef9f0;
+      --surface: #fffaf4;
+      --border: #ede4d6;
+      --text: #6b5d56;
+      --text-dim: #b0a397;
+      --text-dark: #3d2c2a;
+      --accent: #d4785c;
+      --accent-light: #f2e0d6;
+      --accent-deep: #c0644a;
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-body: 'Lora', Georgia, serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 65vh;
+      padding: 120px 32px 64px;
+      background: linear-gradient(160deg, #f5e4d4 0%, #eed9c8 40%, #e8ceb9 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 48px;
+    }
+    .hero-inner { z-index: 2; }
+    .hero-tag {
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: 64px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .hero h2 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+    .hero-scroll {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      cursor: pointer;
+      animation: float 2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(rgba(254,249,240,0.95), rgba(254,249,240,0));
+      transition: background 0.3s;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-dark);
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+    .logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ---- ABOUT ---- */
+    .section-about {
+      padding: 100px 32px;
+      text-align: center;
+    }
+    .section-about p {
+      max-width: 520px;
+      margin: 0 auto;
+      font-size: 16px;
+      color: var(--text);
+      line-height: 2;
+    }
+    .section-about .sig {
+      margin-top: 28px;
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--accent);
+    }
+
+    /* ---- MENU ---- */
+    .section-menu {
+      padding: 40px 32px 100px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .section-label {
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 40px;
+    }
+    .menu-item {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .menu-item:first-of-type { border-top: 1px solid var(--border); }
+    .menu-img {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 10px;
+      color: var(--accent);
+      opacity: 0.4;
+    }
+    .menu-info h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 2px;
+    }
+    .menu-info .desc {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .menu-price {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+      font-feature-settings: "lnum" 1;
+    }
+
+    /* ---- CONTACT ---- */
+    .section-contact {
+      background: var(--surface);
+      padding: 80px 32px;
+      text-align: center;
+    }
+    .section-contact .section-label { margin-bottom: 12px; }
+    .section-contact h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 40px;
+    }
+    .contact-grid {
+      max-width: 640px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      text-align: left;
+    }
+    .contact-info .detail {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text-dark);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--accent); }
+    .form-group textarea { min-height: 90px; resize: vertical; }
+    .form-group .error-msg {
+      font-size: 12px;
+      color: #c44a3f;
+      margin-top: 4px;
+      display: none;
+    }
+    .form-group.error input,
+    .form-group.error textarea { border-color: #c44a3f; }
+    .form-group.error .error-msg { display: block; }
+
+    .btn-submit {
+      padding: 12px 32px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: var(--accent-deep); }
+    .form-success {
+      display: none;
+      padding: 10px 16px;
+      background: rgba(130,168,130,0.12);
+      color: #5a8a5a;
+      font-size: 13px;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 28px 32px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 40px; }
+      .menu-item { grid-template-columns: 80px 1fr; gap: 16px; }
+      .menu-price { grid-column: 2; }
+      .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="logo">簌<span>甜</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">关于</a></li>
+      <li><a href="#menu">甜品单</a></li>
+      <li><a href="#contact">预订</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">Patisserie depuis 2018</div>
+      <h1>簌甜</h1>
+      <h2>甜而不腻，恰到好处</h2>
+    </div>
+    <div class="hero-scroll" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">向下探索</div>
+  </section>
+
+  <section class="section-about" id="about">
+    <p>簌甜创立于 2018 年，是一家坚持手工制作的法式甜品工坊。主理人曾在巴黎 Le Cordon Bleu 研修，回国后致力于将经典法式甜品与本地四季食材结合。每一枚可颂、每一块慕斯，都经历了反复的配方调试与温度试验。</p>
+    <div class="sig">— Sutian</div>
+  </section>
+
+  <section class="section-menu" id="menu">
+    <div class="section-label">La carte</div>
+
+    <div class="menu-item">
+      <div class="menu-img">photo</div>
+      <div class="menu-info">
+        <h3>玫瑰荔枝慕斯</h3>
+        <div class="desc">云南玫瑰露 / 海南妃子笑 / 白巧克力</div>
+      </div>
+      <div class="menu-price">&yen;48</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-img">photo</div>
+      <div class="menu-info">
+        <h3>焦糖海盐可颂</h3>
+        <div class="desc">法国 AOP 黄油 / 布列塔尼海盐 / 焦糖酱</div>
+      </div>
+      <div class="menu-price">&yen;32</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-img">photo</div>
+      <div class="menu-info">
+        <h3>抹茶柚子挞</h3>
+        <div class="desc">宇治抹茶 / 日本柚子 / 杏仁奶油</div>
+      </div>
+      <div class="menu-price">&yen;42</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="menu-img">photo</div>
+      <div class="menu-info">
+        <h3>黑松露巧克力</h3>
+        <div class="desc">法芙娜 70% / 意大利松露油 / 可可碎</div>
+      </div>
+      <div class="menu-price">&yen;58</div>
+    </div>
+  </section>
+
+  <section class="section-contact" id="contact">
+    <div class="section-label">Reservation</div>
+    <h2>预订与咨询</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="detail">上海市徐汇区武康路 218 号</div>
+        <div class="detail">周三至周日 10:00 – 19:00</div>
+        <div class="detail">hello@sutian-patisserie.com</div>
+        <div class="detail" style="margin-top:16px;color:var(--text);">甜品每日限量手作<br>建议提前 48 小时预订</div>
+      </div>
+
+      <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+        <input type="hidden" name="access_key" value="5b437b96-4c9b-4af3-9bd5-128341c5c662">
+        <div class="form-group" id="nameGroup">
+          <label for="name">姓名</label>
+          <input type="text" id="name" name="name" placeholder="您的称呼">
+          <div class="error-msg">请输入姓名</div>
+        </div>
+
+        <div class="form-group" id="emailGroup">
+          <label for="email">邮箱</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com">
+          <div class="error-msg">请输入有效的邮箱地址</div>
+        </div>
+
+        <div class="form-group" id="msgGroup">
+          <label for="message">留言</label>
+          <textarea id="message" name="message" placeholder="请描述您的需求…"></textarea>
+          <div class="error-msg">请输入留言内容</div>
+        </div>
+
+        <button type="submit" class="btn-submit">发送预订</button>
+        <div class="form-success" id="formSuccess">感谢预订，我们将在 24 小时内回复您。</div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    簌甜 &copy; 2026 — 上海市徐汇区武康路 218 号
+  </footer>
+
+  <script>
+    var form = document.getElementById('contactForm');
+    var nameGroup = document.getElementById('nameGroup');
+    var emailGroup = document.getElementById('emailGroup');
+    var msgGroup = document.getElementById('msgGroup');
+    var nameInput = document.getElementById('name');
+    var emailInput = document.getElementById('email');
+    var msgInput = document.getElementById('message');
+    var successBox = document.getElementById('formSuccess');
+
+    function showError(g) { g.classList.add('error'); }
+    function clearError(g) { g.classList.remove('error'); }
+    function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var err = false;
+      if (nameInput.value.trim() === '') { showError(nameGroup); err = true; }
+      else clearError(nameGroup);
+      if (!isValidEmail(emailInput.value)) { showError(emailGroup); err = true; }
+      else clearError(emailGroup);
+      if (msgInput.value.trim() === '') { showError(msgGroup); err = true; }
+      else clearError(msgGroup);
+      if (!err) {
+        var data = new FormData(form);
+        fetch(form.action, { method: 'POST', body: data })
+          .then(function(res) {
+            if (res.ok) {
+              successBox.style.display = 'block';
+              form.reset();
+              setTimeout(function() { successBox.style.display = 'none'; }, 4000);
+            } else {
+              alert('发送失败，请稍后重试');
+            }
+          })
+          .catch(function() {
+            alert('网络错误，请检查网络后重试');
+          });
+      }
+    });
+
+    nameInput.addEventListener('input', function() { clearError(nameGroup); });
+    emailInput.addEventListener('input', function() { clearError(emailGroup); });
+    msgInput.addEventListener('input', function() { clearError(msgGroup); });
+  </script>
+
+</body>
+</html>
